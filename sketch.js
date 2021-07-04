@@ -1,4 +1,4 @@
-let canvasWidth, canvasHeight, mindmap, input, newText;
+let canvas, canvasDiv, canvasWidth, canvasHeight, mindmap, input, newText;
 
 class MindMap {
     constructor() {
@@ -68,27 +68,31 @@ function setup() {
     canvasWidth = 600;
     canvasHeight = 400;
     // putting canvas into the div
-    const canvas = createCanvas(canvasWidth, canvasHeight);
+    canvas = createCanvas(canvasWidth, canvasHeight);
     canvas.parent("canvas");
     // auto resizing canvasDiv to canvas width and height
-    const canvasDiv = document.getElementById("canvas");
+    canvasDiv = document.getElementById("canvas");
     canvasDiv.style.width = canvasWidth + "px";
     canvasDiv.style.height = canvasHeight + "px";
 
     mindmap = new MindMap();
 
-    let coreKeyword = new Keyword(canvasWidth/2, canvasHeight/2, "click to input the Core Keyword here", "white");
-    //coreKeyword.draw();
-
+    let coreKeyword = new Keyword(canvasWidth/2, canvasHeight/2, "click to edit the Core Keyword", "pink");
     mindmap.addKeyword(coreKeyword);
 
-    let someKeyword  = new Keyword(150, 150, "some other Keyword", "lightBlue");
-    //someKeyword.draw();
-
-    mindmap.addKeyword(someKeyword);
-
-    let someAnotherKeyword  = new Keyword(350, 150, "some another Keyword", "lightGreen");
-    mindmap.addKeyword(someAnotherKeyword);
+    canvasDiv.addEventListener("click", (e) => {
+        for (let i = 0; i < mindmap.keywords.length; i++) {
+            if (mouseX >= mindmap.keywords[i].x - mindmap.keywords[i].w/2 &&
+                mouseX <= mindmap.keywords[i].x + mindmap.keywords[i].w/2 &&
+                mouseY >= mindmap.keywords[i].y - mindmap.keywords[i].h/2 &&
+                mouseY <= mindmap.keywords[i].y + mindmap.keywords[i].h/2) {
+                   return;
+            }
+        }
+        let newKeyword = new Keyword(mouseX, mouseY, "new Keyword", "white");
+        mindmap.addKeyword(newKeyword);
+    })
+    
 }
 
 function mouseReleased(i) {
