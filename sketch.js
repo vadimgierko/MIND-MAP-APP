@@ -96,7 +96,7 @@ function mouseReleased(i) {
         if (mouseX >= mindmap.keywords[i].x - mindmap.keywords[i].w/2 &&
             mouseX <= mindmap.keywords[i].x + mindmap.keywords[i].w/2 &&
             mouseY >= mindmap.keywords[i].y - mindmap.keywords[i].h/2 &&
-            mouseY <= mindmap.keywords[i].y + mindmap.keywords[i].w/2) {
+            mouseY <= mindmap.keywords[i].y + mindmap.keywords[i].h/2) {
                 mindmap.onClick(i);
             }
     }
