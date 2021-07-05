@@ -1,8 +1,8 @@
-let canvas, canvasDiv, canvasWidth, canvasHeight, mindmap, input, newText;
+let canvas, canvasDiv, canvasWidth, canvasHeight, mindmap, input, newText, menu, backgroundColorPicker, backgroundColor;
 
 class MindMap {
     constructor() {
-        this.keywords = Array({x: 300, y: 200, w: 270, h: 30, text: "click to edit the Core Keyword", color: "pink"});
+        this.keywords = Array({text: "click to edit the Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "black", backgroundColor: "pink"});
     }
     addKeyword(keyword) {
         const keywords = this.keywords.slice();
@@ -19,6 +19,16 @@ class MindMap {
         keywords[i].w = text.length*9;
         this.keywords = keywords;
     }
+    changeKeywordBackgroundColor(i, color) {
+        const keywords = this.keywords.slice();
+        keywords[i].backgroundColor = color;
+        this.keywords = keywords;
+    }
+    changeKeywordFontColor(i, color) {
+        const keywords = this.keywords.slice();
+        keywords[i].fontColor = color;
+        this.keywords = keywords;
+    }
     deleteKeyword(i) {
         const keywords = this.keywords.slice();
         keywords.splice(i, 1);
@@ -31,33 +41,41 @@ class MindMap {
             //line
             line(keyword.x, keyword.y, this.keywords[this.keywords.length - 1].x, this.keywords[this.keywords.length - 1].y);
             // shape (currently rect with rounded corners)
-            fill(keyword.color);
+            fill(keyword.backgroundColor);
             rectMode(CENTER);
             rect(keyword.x, keyword.y, keyword.w, keyword.h, 5);
             // text
-            fill("black");
+            fill(keyword.fontColor);
             textAlign("center", "center");
             textSize(15);
             text(keyword.text, keyword.x, keyword.y);
+            textSize(12);
+            fill("grey");
+            text("created with MindMapApp", 625, 485);
         }
     }
     onDoubleClick(i) {
         console.log("you've clicked on " + i + " keyword:");
         console.log(mindmap.keywords[i]);
         input = createInput("");
-        input.position(10, 10);
+        input.position(10, 35);
         input.input(() => {
             newText = input.value(); 
         });
         let buttonEdit = createButton("save new text");
-        buttonEdit.position(10 + input.width, 10);
+        buttonEdit.position(10 + input.width, 35);
         buttonEdit.mouseReleased(() => {
             this.editKeyword(i, newText);
+            buttonDelete.hide();
             input.hide();
             buttonEdit.hide();
+            label.hide();
+            backgroundColorButton.hide();
+            label2.hide();
+            fontColorButton.hide();
         });
         let buttonDelete = createButton("delete keyword");
-        buttonDelete.position(10 + input.width + buttonEdit.width, 10);
+        buttonDelete.position(10 + input.width + buttonEdit.width, 35);
         buttonDelete.style("background-color", "red");
         buttonDelete.style("color", "white");
         buttonDelete.mouseReleased(() => {
@@ -65,6 +83,42 @@ class MindMap {
             buttonDelete.hide();
             input.hide();
             buttonEdit.hide();
+            label.hide();
+            backgroundColorButton.hide();
+            label2.hide();
+            fontColorButton.hide();
+        });
+
+        let label = createSpan("set background color:");
+        label.position(10 + input.width + buttonEdit.width + buttonDelete.width, 35);
+        let backgroundColorButton = createInput("#000000", "color");
+        backgroundColorButton.position(10 + input.width + buttonEdit.width + buttonDelete.width + label.width, 35);
+        backgroundColorButton.input((e) => {
+            let color = e.target.value;
+            this.changeKeywordBackgroundColor(i, color);
+            buttonDelete.hide();
+            input.hide();
+            buttonEdit.hide();
+            label.hide();
+            backgroundColorButton.hide();
+            label2.hide();
+            fontColorButton.hide();
+        });
+
+        let label2 = createSpan("set font color:");
+        label2.position(10 + input.width + buttonEdit.width + buttonDelete.width, 60);
+        let fontColorButton = createInput("#000000", "color");
+        fontColorButton.position(10 + input.width + buttonEdit.width + buttonDelete.width + label.width, 60);
+        fontColorButton.input((e) => {
+            let color = e.target.value;
+            this.changeKeywordFontColor(i, color);
+            buttonDelete.hide();
+            input.hide();
+            buttonEdit.hide();
+            label.hide();
+            backgroundColorButton.hide();
+            label2.hide();
+            fontColorButton.hide();
         });
     }
     onMouseDragged(i) {
@@ -76,19 +130,24 @@ class MindMap {
 }
 
 class Keyword {
-    constructor(x, y, text, color) {
+    constructor(x, y, text, fontColor, backgroundColor) {
         this.text = text;
         this.x = x;
         this.y = y;
         this.w = this.text.length*9; // width depends on text length
         this.h = 30;
-        this.color = color;
+        this.fontColor = fontColor;
+        this.backgroundColor = backgroundColor;
     }
 }
 
 function setup() {
-    canvasWidth = 600;
-    canvasHeight = 400;
+    canvasHeight = 500;
+    canvasWidth = canvasHeight*1.414;
+    //menu
+    menu = document.getElementById("menu");
+    menu.style.width = canvasWidth + "px";
+    menu.style.height = "auto";
     // putting canvas into the div
     canvas = createCanvas(canvasWidth, canvasHeight);
     canvas.parent("canvas");
@@ -108,9 +167,18 @@ function setup() {
                    return;
             }
         }
-        let newKeyword = new Keyword(mouseX, mouseY, "new Keyword", "white");
+        let newKeyword = new Keyword(mouseX, mouseY, "new Keyword", "black", "white");
         mindmap.addKeyword(newKeyword);
-    });   
+    });
+
+    // set background color function:
+    backgroundColor = "lightGrey";
+
+    backgroundColorPicker = document.getElementById("backgroundColorPicker");
+    backgroundColorPicker.addEventListener("input", (e) => {
+        //console.log(e.target.value);
+        backgroundColor = e.target.value;
+    });
 }
 
 function doubleClicked(i) {
@@ -136,6 +204,6 @@ function mouseDragged(i) {
 }
 
 function draw() {
-    background("lightGrey");
+    background(backgroundColor);
     mindmap.draw();
 }
