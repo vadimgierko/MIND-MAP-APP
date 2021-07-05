@@ -19,6 +19,11 @@ class MindMap {
         keywords[i].w = text.length*9;
         this.keywords = keywords;
     }
+    deleteKeyword(i) {
+        const keywords = this.keywords.slice();
+        keywords.splice(i, 1);
+        this.keywords = keywords;
+    }
     draw() {
         for (let i = 0; i < this.keywords.length; i++) {
             //this.keywords[i].draw();
@@ -36,7 +41,7 @@ class MindMap {
             text(keyword.text, keyword.x, keyword.y);
         }
     }
-    onClick(i) {
+    onDoubleClick(i) {
         console.log("you've clicked on " + i + " keyword:");
         console.log(mindmap.keywords[i]);
         input = createInput("");
@@ -44,13 +49,29 @@ class MindMap {
         input.input(() => {
             newText = input.value(); 
         });
-        let button = createButton("save new text");
-        button.position(10 + input.width, 10);
-        button.mouseReleased(() => {
+        let buttonEdit = createButton("save new text");
+        buttonEdit.position(10 + input.width, 10);
+        buttonEdit.mouseReleased(() => {
             this.editKeyword(i, newText);
             input.hide();
-            button.hide();
-        });  
+            buttonEdit.hide();
+        });
+        let buttonDelete = createButton("delete keyword");
+        buttonDelete.position(10 + input.width + buttonEdit.width, 10);
+        buttonDelete.style("background-color", "red");
+        buttonDelete.style("color", "white");
+        buttonDelete.mouseReleased(() => {
+            this.deleteKeyword(i);
+            buttonDelete.hide();
+            input.hide();
+            buttonEdit.hide();
+        });
+    }
+    onMouseDragged(i) {
+        const keywords = this.keywords.slice();
+        keywords[i].x = mouseX;
+        keywords[i].y = mouseY;
+        this.keywords = keywords;
     }
 }
 
@@ -63,21 +84,6 @@ class Keyword {
         this.h = 30;
         this.color = color;
     }
-    /*
-    draw() {
-        //line
-        line(this.x, this.y, 300, 200);
-        // shape (currently rect with rounded corners)
-        fill(this.color);
-        rectMode(CENTER);
-        rect(this.x, this.y, this.w, this.h, 5);
-        // text
-        fill("black");
-        textAlign("center", "center");
-        textSize(15);
-        text(this.text, this.x, this.y);
-    }
-    */
 }
 
 function setup() {
@@ -104,8 +110,7 @@ function setup() {
         }
         let newKeyword = new Keyword(mouseX, mouseY, "new Keyword", "white");
         mindmap.addKeyword(newKeyword);
-    })
-    
+    });   
 }
 
 function doubleClicked(i) {
@@ -114,7 +119,18 @@ function doubleClicked(i) {
             mouseX <= mindmap.keywords[i].x + mindmap.keywords[i].w/2 &&
             mouseY >= mindmap.keywords[i].y - mindmap.keywords[i].h/2 &&
             mouseY <= mindmap.keywords[i].y + mindmap.keywords[i].h/2) {
-            mindmap.onClick(i);
+            mindmap.onDoubleClick(i);
+        }
+    }
+}
+
+function mouseDragged(i) {
+    for (let i = 0; i < mindmap.keywords.length; i++) {
+        if (mouseX >= mindmap.keywords[i].x - mindmap.keywords[i].w/2 &&
+            mouseX <= mindmap.keywords[i].x + mindmap.keywords[i].w/2 &&
+            mouseY >= mindmap.keywords[i].y - mindmap.keywords[i].h/2 &&
+            mouseY <= mindmap.keywords[i].y + mindmap.keywords[i].h/2) {
+            mindmap.onMouseDragged(i);
         }
     }
 }
