@@ -108,7 +108,7 @@ function setup() {
     
 }
 
-function mouseReleased(i) {
+function doubleClicked(i) {
     for (let i = 0; i < mindmap.keywords.length; i++) {
         if (mouseX >= mindmap.keywords[i].x - mindmap.keywords[i].w/2 &&
             mouseX <= mindmap.keywords[i].x + mindmap.keywords[i].w/2 &&
