@@ -62,64 +62,58 @@ class MindMap {
         input.input(() => {
             newText = input.value(); 
         });
+
         let buttonEdit = createButton("save new text");
         buttonEdit.position(10 + input.width, 35);
         buttonEdit.mouseReleased(() => {
             this.editKeyword(i, newText);
-            buttonDelete.hide();
-            input.hide();
-            buttonEdit.hide();
-            label.hide();
-            backgroundColorButton.hide();
-            label2.hide();
-            fontColorButton.hide();
+            clearAll();
         });
+
         let buttonDelete = createButton("delete keyword");
         buttonDelete.position(10 + input.width + buttonEdit.width, 35);
         buttonDelete.style("background-color", "red");
         buttonDelete.style("color", "white");
         buttonDelete.mouseReleased(() => {
             this.deleteKeyword(i);
-            buttonDelete.hide();
-            input.hide();
-            buttonEdit.hide();
-            label.hide();
-            backgroundColorButton.hide();
-            label2.hide();
-            fontColorButton.hide();
+            clearAll();
         });
 
         let label = createSpan("set background color:");
         label.position(10 + input.width + buttonEdit.width + buttonDelete.width, 35);
-        let backgroundColorButton = createInput("#000000", "color");
-        backgroundColorButton.position(10 + input.width + buttonEdit.width + buttonDelete.width + label.width, 35);
-        backgroundColorButton.input((e) => {
-            let color = e.target.value;
+        let backgroundColorPicker = createColorPicker("#000000");
+        backgroundColorPicker.position(10 + input.width + buttonEdit.width + buttonDelete.width + label.width, 35);
+        backgroundColorPicker.input(() => {
+            let color = backgroundColorPicker.color();
             this.changeKeywordBackgroundColor(i, color);
-            buttonDelete.hide();
-            input.hide();
-            buttonEdit.hide();
-            label.hide();
-            backgroundColorButton.hide();
-            label2.hide();
-            fontColorButton.hide();
         });
 
         let label2 = createSpan("set font color:");
         label2.position(10 + input.width + buttonEdit.width + buttonDelete.width, 60);
-        let fontColorButton = createInput("#000000", "color");
-        fontColorButton.position(10 + input.width + buttonEdit.width + buttonDelete.width + label.width, 60);
-        fontColorButton.input((e) => {
-            let color = e.target.value;
+        let fontColorPicker = createColorPicker("#000000");
+        fontColorPicker.position(10 + input.width + buttonEdit.width + buttonDelete.width + label.width, 60);
+        fontColorPicker.input(() => {
+            let color = fontColorPicker.color();
             this.changeKeywordFontColor(i, color);
+        });
+
+        let saveChangesButton = createButton("save color changes");
+        saveChangesButton.position(10 + input.width + buttonEdit.width + buttonDelete.width + label.width + 50, 35);
+        saveChangesButton.style("background-color", "lightGreen");
+        saveChangesButton.mouseReleased(() => {
+            clearAll();
+        });
+
+        function clearAll() {
             buttonDelete.hide();
             input.hide();
             buttonEdit.hide();
             label.hide();
-            backgroundColorButton.hide();
+            backgroundColorPicker.hide();
             label2.hide();
-            fontColorButton.hide();
-        });
+            fontColorPicker.hide();
+            saveChangesButton.hide();
+        }
     }
     onMouseDragged(i) {
         const keywords = this.keywords.slice();
