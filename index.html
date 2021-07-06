@@ -3,19 +3,65 @@
   <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.3.1/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/addons/p5.sound.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">    <link rel="stylesheet" type="text/css" href="style.css">
     <meta charset="utf-8" />
     <title>Mind Map App (p5.js) by Vadim Gierko</title>
   </head>
   <body>
-    <div
-      id="menu"
-      style="border: 1px solid rgb(65, 63, 63); margin-bottom: 1px; background-color: lightGrey;">
-      <label>
-        Set background color <input type="color" id="backgroundColorPicker"></input>
-      </label>
+    <div class="container">
+      <nav class="navbar .form-inline bg-light">
+        <span class="navbar-brand mb-0 h1 text-primary">Mind Map App</span>
+        <select id="set-color">
+          <option>set color for...</option>
+          <option>background</option>
+          <option>text</option>
+          <option>border</option>
+          <option>line</option>
+        </select>
+        <input type="color">
+        <select id="set-font">
+          <option>set font</option>
+          <option>font</option>
+          <option>font</option>
+          <option>font</option>
+        </select>
+        <button class="btn btn-success">save changes</button>
+        <button class="btn btn-danger">delete keyword</button>
+        <span>About</span>
+        <span>Get started</span>
+      </nav>
+      <div class="row justify-content-md-center">
+        <div class="col-3 bg-light">
+          <h5 style="text-align: center;">Keyword settings</h5>
+          <div class="form-group">
+            <input class="form-control" stype="text" class="form-control" placeholder="input new text">
+            <select class="form-control" id="set-color">
+              <option>set color for...</option>
+              <option>background</option>
+              <option>text</option>
+              <option>border</option>
+              <option>line</option>
+            </select>
+            <input type="color">
+            <select class="form-control" id="set-font">
+              <option>set font</option>
+              <option>font</option>
+              <option>font</option>
+              <option>font</option>
+            </select>
+            <button class="btn btn-success">save changes</button>
+            <button class="btn btn-danger">delete keyword</button>
+          </div>
+        </div>
+        <div class="col-9">
+          <div id="canvas" style="border: 1px solid grey;"></div>
+        </div>
+      </div>
+      
     </div>
-    <div id="canvas" style="border: 1px solid black;"></div>
+    
     <script src="sketch.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
   </body>
 </html>
