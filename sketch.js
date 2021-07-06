@@ -1,4 +1,4 @@
-let canvas, canvasDiv, canvasWidth, canvasHeight, mindmap, input, newText, menu, backgroundColorPicker, backgroundColor;
+let canvas, canvasDiv, canvasWidth, canvasHeight, mindmap, input, newText, menu, backgroundColor;
 
 class MindMap {
     constructor() {
@@ -138,12 +138,6 @@ class Keyword {
 function setup() {
     canvasHeight = 500;
     canvasWidth = canvasHeight*1.414;
-    //menu
-    /*
-    menu = document.getElementById("menu");
-    menu.style.width = canvasWidth + "px";
-    menu.style.height = "auto";
-    */
     // putting canvas into the div
     canvas = createCanvas(canvasWidth, canvasHeight);
     canvas.parent("canvas");
@@ -169,13 +163,11 @@ function setup() {
 
     // set background color function:
     backgroundColor = "rgb(248, 249, 250)";
-    /*
-    backgroundColorPicker = document.getElementById("backgroundColorPicker");
-    backgroundColorPicker.addEventListener("input", (e) => {
-        //console.log(e.target.value);
+    
+    navColorPicker = document.getElementById("navColorPicker");
+    navColorPicker.addEventListener("input", (e) => {
         backgroundColor = e.target.value;
     });
-    */
 }
 
 function doubleClicked(i) {
