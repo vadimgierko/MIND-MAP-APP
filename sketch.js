@@ -2,17 +2,22 @@ let canvas, canvasDiv, canvasWidth, canvasHeight, mindmap, input, newText, menu,
 
 class MindMap {
     constructor() {
-        this.selected = 0; // selected keyword
         this.currentSection = 0;
         this.sections = Array([{text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "red"}]);
+        this.selectedKeyword = this.sections[this.currentSection][this.sections[this.currentSection].length - 1]; // selected keyword
     }
     addKeyword(keyword) {
         const sections = this.sections.slice();
+        // add keyword to the current section:
         sections[this.currentSection].unshift(keyword);
+        // initiate a new section for the new keyword:
+        sections.push(Array(keyword));
         this.sections = sections;
 
         console.log("new keyword was added:");
         console.log(keyword);
+        //console.log("new section were added:");
+        //console.log(this.sections[this.sections.length - 1]);
         console.log(this.sections);
     }
     editKeyword(i, text) {
@@ -41,11 +46,18 @@ class MindMap {
             for (let j = 0; j < this.sections[i].length; j++) {
                 let keyword = this.sections[i][j];
                 let coreKeyword = this.sections[i][this.sections[i].length - 1];
+                //console.log("keyword" + i);
+                //console.log(keyword);
+                //console.log("coreKeyword for section " + i);
+                //console.log(coreKeyword);
+                let selectedKeyword = this.selectedKeyword;
+                //fill("yellow");
+                rectMode(CENTER);
+                //rect(selectedKeyword.x, selectedKeyword.y, selectedKeyword.w + 7, selectedKeyword.h + 7, 5)
                 //line
                 line(keyword.x, keyword.y, coreKeyword.x, coreKeyword.y);
                 // shape (currently rect with rounded corners)
                 fill(keyword.backgroundColor);
-                rectMode(CENTER);
                 rect(keyword.x, keyword.y, keyword.w, keyword.h, 5);
                 // text
                 fill(keyword.fontColor);
@@ -147,8 +159,6 @@ function setup() {
     canvas.parent("canvas");
     // auto resizing canvasDiv to canvas width and height
     canvasDiv = document.getElementById("canvas");
-    //canvasDiv.style.width = canvasWidth + "px";
-    //canvasDiv.style.height = canvasHeight + "px";
 
     mindmap = new MindMap();
     
@@ -175,7 +185,7 @@ function setup() {
         backgroundColor = e.target.value;
     });
 }
-
+/*
 function doubleClicked(i) {
     for (let i = 0; i < mindmap.keywords.length; i++) {
         if (mouseX >= mindmap.keywords[i].x - mindmap.keywords[i].w/2 &&
@@ -197,7 +207,7 @@ function mouseDragged(i) {
         }
     }
 }
-
+*/
 function draw() {
     background(backgroundColor);
     mindmap.draw();
