@@ -2,56 +2,60 @@ let canvas, canvasDiv, canvasWidth, canvasHeight, mindmap, input, newText, menu,
 
 class MindMap {
     constructor() {
-        this.keywords = Array({text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "red"});
+        this.selected = 0; // selected keyword
+        this.currentSection = 0;
+        this.sections = Array([{text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "red"}]);
     }
     addKeyword(keyword) {
-        const keywords = this.keywords.slice();
-        keywords.unshift(keyword);
-        this.keywords = keywords;
+        const sections = this.sections.slice();
+        sections[this.currentSection].unshift(keyword);
+        this.sections = sections;
 
         console.log("new keyword was added:");
         console.log(keyword);
-        console.log(this.keywords);
+        console.log(this.sections);
     }
     editKeyword(i, text) {
-        const keywords = this.keywords.slice();
-        keywords[i].text = text;
-        keywords[i].w = text.length*9;
-        this.keywords = keywords;
+        const sections = this.sections.slice();
+        sections[this.currentSection][i].text = text;
+        sections[this.currentSection][i].w = text.length*9;
+        this.sections = sections;
     }
     changeKeywordBackgroundColor(i, color) {
-        const keywords = this.keywords.slice();
-        keywords[i].backgroundColor = color;
-        this.keywords = keywords;
+        const sections = this.sections.slice();
+        sections[this.currentSection][i].backgroundColor = color;
+        this.sections = sections;
     }
     changeKeywordFontColor(i, color) {
-        const keywords = this.keywords.slice();
-        keywords[i].fontColor = color;
-        this.keywords = keywords;
+        const sections = this.sections.slice();
+        sections[this.currentSection][i].fontColor = color;
+        this.sections = keywords;
     }
     deleteKeyword(i) {
-        const keywords = this.keywords.slice();
-        keywords.splice(i, 1);
-        this.keywords = keywords;
+        const sections = this.sections.slice();
+        sections[this.currentSection].splice(i, 1);
+        this.sections = sections;
     }
     draw() {
-        for (let i = 0; i < this.keywords.length; i++) {
-            //this.keywords[i].draw();
-            let keyword = this.keywords[i];
-            //line
-            line(keyword.x, keyword.y, this.keywords[this.keywords.length - 1].x, this.keywords[this.keywords.length - 1].y);
-            // shape (currently rect with rounded corners)
-            fill(keyword.backgroundColor);
-            rectMode(CENTER);
-            rect(keyword.x, keyword.y, keyword.w, keyword.h, 5);
-            // text
-            fill(keyword.fontColor);
-            textAlign("center", "center");
-            textSize(15);
-            text(keyword.text, keyword.x, keyword.y);
-            textSize(12);
-            fill("grey");
-            text("created with MindMapApp", 625, 485);
+        for (let i = 0; i < this.sections.length; i++) {   
+            for (let j = 0; j < this.sections[i].length; j++) {
+                let keyword = this.sections[i][j];
+                let coreKeyword = this.sections[i][this.sections[i].length - 1];
+                //line
+                line(keyword.x, keyword.y, coreKeyword.x, coreKeyword.y);
+                // shape (currently rect with rounded corners)
+                fill(keyword.backgroundColor);
+                rectMode(CENTER);
+                rect(keyword.x, keyword.y, keyword.w, keyword.h, 5);
+                // text
+                fill(keyword.fontColor);
+                textAlign("center", "center");
+                textSize(15);
+                text(keyword.text, keyword.x, keyword.y);
+                textSize(12);
+                fill("grey");
+                text("created with MindMapApp", 625, 485);
+            }         
         }
     }
     onDoubleClick(i) {
@@ -149,12 +153,14 @@ function setup() {
     mindmap = new MindMap();
     
     canvasDiv.addEventListener("click", (e) => {
-        for (let i = 0; i < mindmap.keywords.length; i++) {
-            if (mouseX >= mindmap.keywords[i].x - mindmap.keywords[i].w/2 &&
-                mouseX <= mindmap.keywords[i].x + mindmap.keywords[i].w/2 &&
-                mouseY >= mindmap.keywords[i].y - mindmap.keywords[i].h/2 &&
-                mouseY <= mindmap.keywords[i].y + mindmap.keywords[i].h/2) {
-                   return;
+        for (let i = 0; i < mindmap.sections.length; i++) {
+            for (let j = 0; j < mindmap.sections[i].length; j++) {
+                if (mouseX >= mindmap.sections[i][j].x - mindmap.sections[i][j].w/2 &&
+                    mouseX <= mindmap.sections[i][j].x + mindmap.sections[i][j].w/2 &&
+                    mouseY >= mindmap.sections[i][j].y - mindmap.sections[i][j].h/2 &&
+                    mouseY <= mindmap.sections[i][j].y + mindmap.sections[i][j].h/2) {
+                       return;
+                }
             }
         }
         let newKeyword = new Keyword(mouseX, mouseY, "new Keyword", "black", "white");
