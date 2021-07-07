@@ -10,7 +10,7 @@ class MindMap {
         const keywords = this.keywords.slice();
         keywords.push(keyword);
         this.keywords = keywords;
-
+      
         console.log("new keyword was added:");
         console.log(keyword);
         console.log(this.keywords);
@@ -212,18 +212,24 @@ function setup() {
         backgroundColor = e.target.value;
     });
 }
-/*
-function doubleClicked(i) {
-    for (let i = 0; i < mindmap.keywords.length; i++) {
-        if (mouseX >= mindmap.keywords[i].x - mindmap.keywords[i].w/2 &&
-            mouseX <= mindmap.keywords[i].x + mindmap.keywords[i].w/2 &&
-            mouseY >= mindmap.keywords[i].y - mindmap.keywords[i].h/2 &&
-            mouseY <= mindmap.keywords[i].y + mindmap.keywords[i].h/2) {
-            mindmap.onDoubleClick(i);
+
+function doubleClicked() {
+    for (let i = 0; i < mindmap.sections.length; i++) {
+        for (let j = 0; j < mindmap.sections[i].length; j++) {
+            if (mouseX >= mindmap.sections[i][j].x - mindmap.sections[i][j].w/2 &&
+                mouseX <= mindmap.sections[i][j].x + mindmap.sections[i][j].w/2 &&
+                mouseY >= mindmap.sections[i][j].y - mindmap.sections[i][j].h/2 &&
+                mouseY <= mindmap.sections[i][j].y + mindmap.sections[i][j].h/2) {
+                // if keyword is clicked = selected:
+                console.log("selected:");
+                console.log(mindmap.sections[i][j]);
+                console.log("i = " + i);
+                console.log("j = " + j);
+            }
         }
     }
 }
-
+/*
 function mouseDragged(i) {
     for (let i = 0; i < mindmap.keywords.length; i++) {
         if (mouseX >= mindmap.keywords[i].x - mindmap.keywords[i].w/2 &&
