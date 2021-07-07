@@ -2,7 +2,7 @@ let canvas, canvasDiv, canvasWidth, canvasHeight, mindmap, input, newText, menu,
 
 class MindMap {
     constructor() {
-        this.keywords = Array({text: "click to edit the Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "black", backgroundColor: "pink"});
+        this.keywords = Array({text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "red"});
     }
     addKeyword(keyword) {
         const keywords = this.keywords.slice();
@@ -143,8 +143,8 @@ function setup() {
     canvas.parent("canvas");
     // auto resizing canvasDiv to canvas width and height
     canvasDiv = document.getElementById("canvas");
-    canvasDiv.style.width = canvasWidth + "px";
-    canvasDiv.style.height = canvasHeight + "px";
+    //canvasDiv.style.width = canvasWidth + "px";
+    //canvasDiv.style.height = canvasHeight + "px";
 
     mindmap = new MindMap();
     

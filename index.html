@@ -15,8 +15,8 @@
           <option>set color for...</option>
           <option>background</option>
           <option>text</option>
-          <option>border</option>
-          <option>line</option>
+          <option>borders</option>
+          <option>lines</option>
         </select>
         <input type="color" id="navColorPicker">
         <select id="set-font">
@@ -35,6 +35,7 @@
           <h5 style="text-align: center;">Keyword settings</h5>
           <div class="form-group">
             <input class="form-control" stype="text" class="form-control" placeholder="input new text">
+            <br>
             <select class="form-control" id="set-color">
               <option>set color for...</option>
               <option>background</option>
@@ -42,20 +43,26 @@
               <option>border</option>
               <option>line</option>
             </select>
+            <br>
             <input type="color">
+            <br>
             <select class="form-control" id="set-font">
               <option>set font</option>
               <option>font</option>
               <option>font</option>
               <option>font</option>
             </select>
+            <br>
             <button class="btn btn-primary">save changes</button>
+            <br></br>
             <button class="btn btn-secondary">delete keyword</button>
           </div>
         </div>
-        <div class="col-9">
-          <div id="canvas" style="border: 1px solid grey;"></div>
-        </div>
+        <div
+          id="canvas"
+          class="col"
+          style="border: 1px solid grey; margin: 0; padding: 0; width: 707px; height: 502px"
+        ></div>
       </div>
     </div>
     
