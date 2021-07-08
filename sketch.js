@@ -42,6 +42,7 @@ class MindMap {
         this.selectedKeyword = this.coreKeyword;
         this.selectedIndex = null;
     }
+    
     draw() {
         // highlighting selected keyword (default: this.coreKeyword):
         rectMode(CENTER);
