@@ -7,6 +7,7 @@ class MindMap {
         this.selectedIndex = null;
         this.keywords = Array(0);
         this.colorFor = null;
+        this.globalColorFor = null;
     }
     addKeyword(keyword) {
         const keywords = this.keywords.slice();
@@ -157,11 +158,6 @@ function setup() {
 
     // set background color function:
     backgroundColor = "rgb(248, 249, 250)";
-    
-    navColorPicker = document.getElementById("navColorPicker");
-    navColorPicker.addEventListener("input", (e) => {
-        backgroundColor = e.target.value;
-    });
 }
 
 function mouseDragged(i) {
@@ -176,6 +172,45 @@ function mouseDragged(i) {
     // enable to drag the coreKeyword ??
 }
 
+//========================== mind map seetings navbar event listeners: =================
+let mindMapSelectColorFor = document.getElementById("mind-map-select-color-for");
+mindMapSelectColorFor.addEventListener("change", () => {
+    mindmap.globalColorFor = mindMapSelectColorFor.value;
+});
+
+let mindMapColorPicker = document.getElementById("mind-map-color-picker");
+mindMapColorPicker.addEventListener("input", (e) => {
+    let color = e.target.value;
+    if (mindmap.globalColorFor === "mind map background") {
+        backgroundColor = color;
+    } else if (mindmap.globalColorFor === "text") {
+        for (let i = 0; i < mindmap.keywords.length; i++) {
+            mindmap.changeKeywordFontColor(i, color);
+        }
+    } else if (mindmap.globalColorFor === "keywords background") {
+        for (let i = 0; i < mindmap.keywords.length; i++) {
+            mindmap.changeKeywordBackgroundColor(i, color);
+        }
+    }
+});
+
+let saveMindMapChangesBtn = document.getElementById("save-mind-map-changes-btn");
+saveMindMapChangesBtn.addEventListener("click", () => {
+    clearMindMapInputs();
+});
+
+let deleteMindMapBtn = document.getElementById("delete-mind-map-btn");
+deleteMindMapBtn.addEventListener("click", () => {
+    mindmap.keywords = Array(0);
+    mindmap.coreKeyword = {text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "red"};
+    clearInputs();
+});
+
+function clearMindMapInputs() {
+    mindMapSelectColorFor.value = "set color for...";
+    mindMapColorPicker.value = "#000000";
+    mindmap.globalColorFor = null;
+}
 //========================== keyword settings navbar event listeners: ==================
 let keywordInput = document.getElementById("keyword-input");
 keywordInput.addEventListener("input", (e) => {
