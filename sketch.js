@@ -203,6 +203,8 @@ let deleteMindMapBtn = document.getElementById("delete-mind-map-btn");
 deleteMindMapBtn.addEventListener("click", () => {
     mindmap.keywords = Array(0);
     mindmap.coreKeyword = {text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "red"};
+    mindmap.selectedKeyword = mindmap.coreKeyword;
+    backgroundColor = "rgb(248, 249, 250)";
     clearInputs();
 });
 
