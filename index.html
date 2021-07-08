@@ -9,30 +9,39 @@
   </head>
   <body>
     <div class="container">
+      <!-- NAV BAR -->
       <nav class="navbar .form-inline bg-light">
         <span class="navbar-brand mb-0 h1 text-primary">Mind Map App</span>
-        <select id="set-color">
+        <span>About</span>
+        <span>Get started</span>
+      </nav>
+      <!-- MIND MAP SETTING BAR -->
+      <div class="col" style="text-align: right;">
+        <h5 style="display: inline">Mind Map settings: </h5>
+        <select id="mind-map-select-color-for">
           <option>set color for...</option>
-          <option>background</option>
+          <option>mind map background</option>
+          <option>keywords background</option>
           <option>text</option>
           <option>borders</option>
           <option>lines</option>
         </select>
-        <input type="color" id="navColorPicker">
-        <select id="set-font">
+        <input id="mind-map-color-picker" type="color">
+        <!--
+          <select id="set-font">
           <option>set font</option>
           <option>font</option>
           <option>font</option>
           <option>font</option>
         </select>
-        <button class="btn btn-primary">save changes</button>
-        <button class="btn btn-secondary">delete keyword</button>
-        <span>About</span>
-        <span>Get started</span>
-      </nav>
+        -->
+        <button id="save-mind-map-changes-btn" class="btn btn-primary">save mind map changes</button>
+        <button id="delete-mind-map-btn" class="btn btn-secondary">delete mind map</button>
+      </div>
       <div class="row justify-content-md-center">
+        <!-- KEYWORD SETTING BAR -->
         <div class="col bg-light">
-          <h5 style="text-align: center;">Keyword settings</h5>
+          <h5>Keyword settings:</h5>
           <div class="form-group">
             <input id="keyword-input" class="form-control" type="text" placeholder="input new text">
             <br>
@@ -44,15 +53,17 @@
               <option>line</option>
             </select>
             <input id="keyword-color-picker" type="color">
-            <br></br>
-            <select class="form-control" id="set-font">
+            <br>
+            <!--
+              <select id="set-font">
               <option>set font</option>
               <option>font</option>
               <option>font</option>
               <option>font</option>
             </select>
+            -->
             <br>
-            <button id="save-keyword-changes-btn" class="btn btn-primary">save changes</button>
+            <button id="save-keyword-changes-btn" class="btn btn-primary">save keyword changes</button>
             <br></br>
             <button id="delete-keyword-btn" class="btn btn-secondary">delete keyword</button>
           </div>
