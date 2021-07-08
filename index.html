@@ -31,21 +31,20 @@
         <span>Get started</span>
       </nav>
       <div class="row justify-content-md-center">
-        <div class="col-3 bg-light">
+        <div class="col bg-light">
           <h5 style="text-align: center;">Keyword settings</h5>
           <div class="form-group">
-            <input class="form-control" stype="text" class="form-control" placeholder="input new text">
+            <input id="keyword-input" class="form-control" type="text" placeholder="input new text">
             <br>
-            <select class="form-control" id="set-color">
+            <select id="keyword-select-color-for" class="custom-select">
               <option>set color for...</option>
               <option>background</option>
               <option>text</option>
               <option>border</option>
               <option>line</option>
             </select>
-            <br>
-            <input type="color">
-            <br>
+            <input id="keyword-color-picker" type="color">
+            <br></br>
             <select class="form-control" id="set-font">
               <option>set font</option>
               <option>font</option>
@@ -53,15 +52,15 @@
               <option>font</option>
             </select>
             <br>
-            <button class="btn btn-primary">save changes</button>
+            <button id="save-keyword-changes-btn" class="btn btn-primary">save changes</button>
             <br></br>
-            <button class="btn btn-secondary">delete keyword</button>
+            <button id="delete-keyword-btn" class="btn btn-secondary">delete keyword</button>
           </div>
         </div>
         <div
           id="canvas"
           class="col"
-          style="border: 1px solid grey; margin: 0; padding: 0; width: 707px; height: 502px"
+          style="border: 1px solid grey; margin: 0; padding: 0; width: 709px; height: 502px"
         ></div>
       </div>
     </div>
