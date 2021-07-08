@@ -12,7 +12,7 @@ class MindMap {
         const keywords = this.keywords.slice();
         keywords.push(keyword);
         this.keywords = keywords;
-
+      
         console.log("new keyword was added:");
         console.log(keyword);
         console.log(this.keywords);
