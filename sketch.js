@@ -2,7 +2,7 @@ let canvas, canvasDiv, canvasWidth, canvasHeight, mindmap, input, newText, menu,
 
 class MindMap {
     constructor() {
-        this.coreKeyword = {text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "red"};
+        this.coreKeyword = {text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "rgb(0, 123, 255)"};
         this.selectedKeyword = this.coreKeyword;
         this.selectedIndex = null;
         this.keywords = Array(0);
@@ -77,7 +77,7 @@ class MindMap {
 
         // watermark:
         fill("grey");
-        text("created with MindMapApp", 625, 485);
+        text("created with MindMapApp", 695, 533);
     }
     
     onMouseDragged(i) {
@@ -102,7 +102,7 @@ class Keyword {
 }
 
 function setup() {
-    canvasHeight = 500;
+    canvasHeight = 550;
     canvasWidth = canvasHeight*1.414;
     // putting canvas into the div
     canvas = createCanvas(canvasWidth, canvasHeight);
@@ -202,7 +202,7 @@ saveMindMapChangesBtn.addEventListener("click", () => {
 let deleteMindMapBtn = document.getElementById("delete-mind-map-btn");
 deleteMindMapBtn.addEventListener("click", () => {
     mindmap.keywords = Array(0);
-    mindmap.coreKeyword = {text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "red"};
+    mindmap.coreKeyword = {text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "rgb(0, 123, 255)"};
     mindmap.selectedKeyword = mindmap.coreKeyword;
     backgroundColor = "rgb(248, 249, 250)";
     clearMindMapInputs();
