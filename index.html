@@ -5,20 +5,39 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/addons/p5.sound.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">    <link rel="stylesheet" type="text/css" href="style.css">
     <meta charset="utf-8" />
-    <title>Mind Map App (p5.js) by Vadim Gierko</title>
+    <title>Mind Maps App (p5.js) by Vadim Gierko</title>
   </head>
   <body>
     <div class="container">
       <!-- NAV BAR -->
-      <nav class="navbar .form-inline bg-light">
-        <span class="navbar-brand mb-0 h1 text-primary">Mind Map App</span>
-        <span>About</span>
-        <span>Get started</span>
-      </nav>
+      <div class="navbar .form-inline bg-info justify-content-between text-white my-1 mx-n3">
+        <div class="col">
+          <span class="navbar-brand mb-0 ml-n3 h1 text-white">
+            <a
+              href="https://vadimgierko.github.io/MIND-MAP-APP/"
+              class="text-reset"
+            >
+              Mind Maps App
+            </a>
+          </span>
+        </div>
+        <span class="mx-3" id="about-app-btn">About app</span>
+        <span class="mx-3" id="about-mind-maps-btn">About mind maps</span>
+        <span class="mx-3" id="tutorial-btn">Quick App Tutorial</span>
+        <button
+          type="button"
+          class="btn btn-outline-light ml-3"
+          id="create-new-mind-map-btn"
+        >
+          Mind Map Creator Mode
+        </button>
+      </div>
       <!-- MIND MAP SETTING BAR -->
-      <div class="col" style="text-align: right;">
-        <h5 style="display: inline">Mind Map settings: </h5>
-        <select id="mind-map-select-color-for">
+      <div class="row justify-content-md-between align-items-center my-3 py-1 bg-secondary">
+        <div class="col">
+          <h5 style="display: inline">Mind Map settings: </h5>
+        </div>
+        <select id="mind-map-select-color-for" class="mx-2">
           <option>set color for...</option>
           <option>mind map background</option>
           <option>keywords background</option>
@@ -26,21 +45,13 @@
           <option>borders</option>
           <option>lines</option>
         </select>
-        <input id="mind-map-color-picker" type="color">
-        <!--
-          <select id="set-font">
-          <option>set font</option>
-          <option>font</option>
-          <option>font</option>
-          <option>font</option>
-        </select>
-        -->
-        <button id="save-mind-map-changes-btn" class="btn btn-primary">save mind map changes</button>
-        <button id="delete-mind-map-btn" class="btn btn-secondary">delete mind map</button>
+        <input id="mind-map-color-picker" type="color" class="mx-2">
+        <button id="save-mind-map-changes-btn" class="btn btn-primary rounded mx-2">save mind map changes</button>
+        <button id="delete-mind-map-btn" class="btn btn-danger rounded mx-2">delete mind map</button>
       </div>
-      <div class="row justify-content-md-center">
+      <div class="row justify-content-md-start">
         <!-- KEYWORD SETTING BAR -->
-        <div class="col bg-light">
+        <div class="col bg-secondary py-3">
           <h5>Keyword settings:</h5>
           <div class="form-group">
             <input id="keyword-input" class="form-control" type="text" placeholder="input new text">
@@ -54,18 +65,10 @@
             </select>
             <input id="keyword-color-picker" type="color">
             <br>
-            <!--
-              <select id="set-font">
-              <option>set font</option>
-              <option>font</option>
-              <option>font</option>
-              <option>font</option>
-            </select>
-            -->
             <br>
             <button id="save-keyword-changes-btn" class="btn btn-primary">save keyword changes</button>
             <br></br>
-            <button id="delete-keyword-btn" class="btn btn-secondary">delete keyword</button>
+            <button id="delete-keyword-btn" class="btn btn-danger">delete keyword</button>
           </div>
         </div>
         <div
