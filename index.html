@@ -7,18 +7,19 @@
     <meta charset="utf-8" />
     <title>Mind Maps App (p5.js) by Vadim Gierko</title>
   </head>
-  <body>
+  <body style="background-color: rgb(39, 37, 37);">
     <div class="container">
       <!-- NAV BAR -->
-      <div class="navbar .form-inline bg-primary justify-content-between text-white my-1 mx-n3">
+      <div class="navbar .form-inline bg-primary justify-content-between text-white my-1 mx-n3 rounded">
         <div class="col">
-          <span class="navbar-brand mb-0 ml-n3 h1 text-white">
+          <span class="navbar-brand mb-0 ml-n3 h1 font-weight-bold text-white">
             <a
-              href="https://vadimgierko.github.io/MIND-MAP-APP/"
+              href="#"
               class="text-reset"
             >
               Mind Maps App
             </a>
+            <!--"https://vadimgierko.github.io/MIND-MAP-APP/"-->
           </span>
         </div>
         <span class="mx-3" id="about-app-btn">About app</span>
@@ -33,7 +34,7 @@
         </button>
       </div>
       <!-- MIND MAP SETTING BAR -->
-      <div class="row justify-content-md-between align-items-center my-3 py-1 bg-light">
+      <div class="row justify-content-md-between align-items-center my-3 py-1 bg-light border border-secondary rounded">
         <div class="col">
           <h5 style="display: inline">Mind Map settings: </h5>
         </div>
@@ -49,32 +50,28 @@
         <button id="save-mind-map-changes-btn" class="btn btn-primary rounded mx-2">save mind map changes</button>
         <button id="delete-mind-map-btn" class="btn btn-danger rounded mx-2">delete mind map</button>
       </div>
-      <div class="row justify-content-md-start">
+      <div class="row justify-content-md-between mb-3">
         <!-- KEYWORD SETTING BAR -->
-        <div class="col bg-light py-3">
-          <h5>Keyword settings:</h5>
+        <div class="col bg-light border border-secondary mr-3 rounded">
+          <h5 class="my-3">Keyword settings:</h5>
           <div class="form-group">
-            <input id="keyword-input" class="form-control" type="text" placeholder="input new text">
-            <br>
-            <select id="keyword-select-color-for" class="custom-select">
+            <input id="keyword-input" class="form-control my-2" type="text" placeholder="input new text">
+            <select id="keyword-select-color-for" class="custom-select my-2">
               <option>set color for...</option>
               <option>background</option>
               <option>text</option>
               <option>border</option>
               <option>line</option>
             </select>
-            <input id="keyword-color-picker" type="color">
-            <br>
-            <br>
-            <button id="save-keyword-changes-btn" class="btn btn-primary">save keyword changes</button>
-            <br></br>
-            <button id="delete-keyword-btn" class="btn btn-danger">delete keyword</button>
+            <input id="keyword-color-picker" type="color" class="input my-2">
+            <button id="save-keyword-changes-btn" class="btn btn-primary my-2 d-block">save keyword changes</button>
+            <button id="delete-keyword-btn" class="btn btn-danger my-2 d-block">delete keyword</button>
           </div>
         </div>
         <div
           id="canvas"
           class="col"
-          style="border: 1px solid grey; margin: 0; padding: 0; width: 709px; height: 502px"
+          style="border: 1px solid grey; margin: 0; padding: 0; width: 779px; height: 552px"
         ></div>
       </div>
     </div>
