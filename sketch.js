@@ -82,6 +82,7 @@ class MindMap {
         fill(coreKeyword.backgroundColor);
         rect(coreKeyword.x, coreKeyword.y, coreKeyword.w, coreKeyword.h, 5);
         // text
+        noStroke();
         fill(coreKeyword.fontColor);
         textAlign("center", "center");
         textSize(15);
@@ -89,6 +90,7 @@ class MindMap {
         textSize(12);
 
         // watermark:
+        
         fill("grey");
         text("created with MindMapApp", 695, 533);
     }
