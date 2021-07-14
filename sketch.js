@@ -2,7 +2,7 @@ let canvas, canvasDiv, canvasWidth, canvasHeight, mindmap, input, newText, menu,
 
 class MindMap {
     constructor() {
-        this.coreKeyword = {text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "rgb(0, 123, 255)"};
+        this.coreKeyword = {text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "rgb(0, 123, 255)", lineColor: "black", borderColor: "black"};
         this.selectedKeyword = this.coreKeyword;
         this.selectedIndex = null;
         this.keywords = Array(0);
@@ -34,8 +34,16 @@ class MindMap {
         keywords[i].fontColor = color;
         this.keywords = keywords;
     }
-    // => changeKeywordLineColor
-    // => changeKeywordBorderColor
+    changeKeywordLineColor(i, color) {
+        const keywords = this.keywords.slice();
+        keywords[i].lineColor = color;
+        this.keywords = keywords;
+    }
+    changeKeywordBorderColor(i, color) {
+        const keywords = this.keywords.slice();
+        keywords[i].borderColor = color;
+        this.keywords = keywords;
+    }
     deleteKeyword(i) {
         const keywords = this.keywords.slice();
         keywords.splice(i, 1);
@@ -54,11 +62,15 @@ class MindMap {
         for (let i = this.keywords.length; i > 0; i--) {
             let keyword = this.keywords[i - 1];
             rectMode(CENTER);
+            //line color:
+            stroke(keyword.lineColor);
             line(keyword.x, keyword.y, keyword.parent.x, keyword.parent.y);
             fill(keyword.backgroundColor);
-            //stroke("black");
+            // border color:
+            stroke(keyword.borderColor);
             rect(keyword.x, keyword.y, keyword.w, keyword.h, 5);
             // keyword text
+            noStroke();
             fill(keyword.fontColor);
             textAlign("center", "center");
             textSize(15);
@@ -66,6 +78,7 @@ class MindMap {
         }
         let coreKeyword = this.coreKeyword;
         rectMode(CENTER);
+        stroke(coreKeyword.borderColor);
         fill(coreKeyword.backgroundColor);
         rect(coreKeyword.x, coreKeyword.y, coreKeyword.w, coreKeyword.h, 5);
         // text
@@ -89,7 +102,7 @@ class MindMap {
 }
 
 class Keyword {
-    constructor(x, y, text, fontColor, backgroundColor, parent) {
+    constructor(x, y, text, fontColor, backgroundColor, lineColor, borderColor, parent) {
         this.text = text;
         this.x = x;
         this.y = y;
@@ -97,6 +110,8 @@ class Keyword {
         this.h = 30;
         this.fontColor = fontColor;
         this.backgroundColor = backgroundColor;
+        this.lineColor = lineColor;
+        this.borderColor = borderColor;
         this.parent = parent;
     }
 }
@@ -128,7 +143,7 @@ function setup() {
             // change selectedKeyword on this coreKeyword
             return;
         }
-        let newKeyword = new Keyword(mouseX, mouseY, "new Keyword", "black", "white", mindmap.selectedKeyword);
+        let newKeyword = new Keyword(mouseX, mouseY, "new Keyword", "black", "white", "black", "black", mindmap.selectedKeyword);
         mindmap.addKeyword(newKeyword);
         clearInputs();
     });
@@ -191,6 +206,14 @@ mindMapColorPicker.addEventListener("input", (e) => {
         for (let i = 0; i < mindmap.keywords.length; i++) {
             mindmap.changeKeywordBackgroundColor(i, color);
         }
+    } else if (mindmap.globalColorFor === "lines") {
+        for (let i = 0; i < mindmap.keywords.length; i++) {
+            mindmap.changeKeywordLineColor(i, color);
+        }
+    } else if (mindmap.globalColorFor === "borders") {
+        for (let i = 0; i < mindmap.keywords.length; i++) {
+            mindmap.changeKeywordBorderColor(i, color);
+        }
     }
 });
 
@@ -238,12 +261,20 @@ keywordColorPicker.addEventListener("input", (e) => {
             mindmap.changeKeywordBackgroundColor(mindmap.selectedIndex, color);
         } else if (mindmap.colorFor === "text") {
             mindmap.changeKeywordFontColor(mindmap.selectedIndex, color);
+        } else if (mindmap.colorFor === "line") {
+            mindmap.changeKeywordLineColor(mindmap.selectedIndex, color);
+        } else if (mindmap.colorFor === "border") {
+            mindmap.changeKeywordBorderColor(mindmap.selectedIndex, color);
         }
     } else {
         if (mindmap.colorFor === "background") {
             mindmap.coreKeyword.backgroundColor = color;
         } else if (mindmap.colorFor === "text") {
             mindmap.coreKeyword.fontColor = color;
+        } else if (mindmap.colorFor === "line") {
+            mindmap.coreKeyword.lineColor = color;
+        } else if (mindmap.colorFor === "border") {
+            mindmap.coreKeyword.borderColor = color;
         }
     }
 });
