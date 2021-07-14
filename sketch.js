@@ -272,14 +272,3 @@ function draw() {
     background(backgroundColor);
     mindmap.draw();
 }
-
-//======================= navbad buttons alert ====================
-const aboutAppBtn = document.getElementById("about-app-btn");
-aboutAppBtn.addEventListener("click", () => {
-    alert("Mind Maps App is very simple, intuitive and easy to use application for online mindmapping. Click on Short App Tutorial button on menu to figure out how to use it. This app allows you to put keywords in any place (not like in other mindmapping apps), what means that you are totally free and not limited by a default structure! And... you can save the mind map you've created by one click on canvas (check out the tutorial)! I've used pure JavaScript and p5.js library to create the app (no HTML Canvas was used) and did some styling with pure Bootstrap. Enjoy!");
-});
-
-const tutorialBtn = document.getElementById("tutorial-btn");
-tutorialBtn.addEventListener("click", () => {
-    alert("Mind Maps App is very intuitive. There is a core keyword in the center of the canvas. You can see that it's surrounded with yellow color. That means that this word is selected. While some word is selected, you can click at any place on the canvas to add the sub-keyword to the selected keyword. These words will be connected with lines. While one word is selected, all new keywords will be connected with this word. If you want to add a keyword connected with another word - double click on that word and then click at any place to add a sub-keyword. You can drag keywords (except the core keyword) - just click on it and drag! You can edit keywords in the left navbar. But remember to check, if the word you want to edit is selected (double click on it). You can also edit the entire mind map with Mind Map Settings navbar above the canvas. You can save and download your map as a PNG image. Click on the canvas with right button of your mouse and save it as an image! Enjoy!");
-});
