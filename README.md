@@ -1,28 +1,38 @@
-# MIND-MAP-APP
- Simple and intuitive app for mind mapping using p5.js library.
+ABOUT APP:
+
+Mind Maps App is a very simple, intuitive and easy to use application for online mindmapping.
+
+This app allows you to put keywords in any place (not like in other mindmapping apps), what means that you are totally free and not limited by a default structure!
+
+And... you can save the mind map you've created as a PNG image thanks to only one click on canvas (check out the tutorial)! That means, that you can put in your presentation, blog post or any document, or print it.
+
+Try it here: https://vadimgierko.github.io/MIND-MAP-APP/
+
+Click on Short App Tutorial button on menu to figure out how to use it.
+
+MOTIVATION:
 
 I love mindmapping and use it everyday.
-Heard of it? If not, you really should to know mind maps better!
-This is very powerfull tool for your mind.
-You can use it while studying, learning, creating, planning, reading etc.
-
-The basic idea of mind maps is to distract keywords from the information you are reading or listening and put them into mind map.
-
-In the middle of your mindmap the core keyword should be.
-It can be not only one word. That can be a topic, a full sentence etc.
-
-You put keywords around the Core Keyword and connect them with the core with lines.
-
-Every Keyword can initiate a new branch/ topic and become a Core Keyword for other keyword, which will be related with this particular keyword.
-
-So you see, that you are building a structure of related keywords.
 
 Usually I do mindmapping on a paper and prefer this method.
 I've tried a few apps for mindmapping, but wasn't satisfied...
 So I decided to build my own app :-)
 
-Also this is a good opportunity for me to get back to (and recall) p5.js library.
+Heard of mindmapping? If not, visit this site: https://en.wikipedia.org/wiki/Mind_map
 
-I hope you'll enjoy it!
+Mind maps are very powerfull tool for your mind.
+You can use it while studying, learning, creating, planning, reading etc and do that thing much better and get better results with mind maps.
 
-PS. if you want to save your mind map, just press mouse right button and Save an image. Thats' all! Now you can share it, put it in your presentation or print.
+The basic idea of mind maps is to distract keywords from the information you are reading or listening and put them into mind map.
+
+In the center there is the core keyword (the main topic of your mind map). You put keywords around the Core Keyword and automatically connect them with lines.
+
+Every Keyword can initiate a new branch/ topic and become a Core Keyword for other keyword, which will be related with this particular keyword.
+
+So you see, that you are building a structure of related keywords.
+
+TECHNOLOGIES:
+
+- JavaScript
+- p5.js library (no HTML Canvas was used)
+- Bootstrap (pure)
