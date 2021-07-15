@@ -85,8 +85,30 @@
           <option>lines</option>
         </select>
         <input id="mind-map-color-picker" type="color" class="mx-2">
-        <button id="save-mind-map-changes-btn" class="btn btn-primary rounded mx-2">save mind map changes</button>
+        <button id="save-mind-map-changes-btn" class="btn btn-primary rounded mx-2">save changes</button>
         <button id="delete-mind-map-btn" class="btn btn-danger rounded mx-2">delete mind map</button>
+
+        <div class="dropdown">
+          <button
+            class="dropdown-toggle btn btn-secondary rounded mx-2"
+            data-toggle="dropdown"
+          >save</button>
+          <div class="dropdown-menu dropdown-menu-right" style="min-width: 300px;">
+            <input id="save-input" class="m-3" size="30" placeholder="input the name for this mindmap">
+            <button id="save-btn"class="btn btn-success ml-3">save mindmap</button>
+          </div>
+        </div>
+
+        <div class="dropdown">
+          <button
+            class="dropdown-toggle btn btn-outline-secondary rounded mx-2"
+            data-toggle="dropdown"
+          >open</button>
+          <div class="dropdown-menu dropdown-menu-right" style="min-width: 300px;">
+            <input id="open-input" class="m-3" size="30" placeholder="input the name of the mindmap">
+            <button id="open-btn"class="btn btn-success ml-3">open mindmap</button>
+          </div>
+        </div>
       </div>
       <div class="row justify-content-md-between mb-3">
         <!-- KEYWORD SETTING BAR -->

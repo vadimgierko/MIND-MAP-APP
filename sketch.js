@@ -8,6 +8,8 @@ class MindMap {
         this.keywords = Array(0);
         this.colorFor = null;
         this.globalColorFor = null;
+        this.name = "";
+        this.backgroundColor = "rgb(248, 249, 250)";
     }
     addKeyword(keyword) {
         const keywords = this.keywords.slice();
@@ -51,7 +53,17 @@ class MindMap {
         this.selectedKeyword = this.coreKeyword;
         this.selectedIndex = null;
     }
-    
+    saveMindMap() {
+        let savedMindMap = {
+            name: this.name,
+            coreKeyword: this.coreKeyword,
+            keywords: this.keywords,
+            backgroundColor: this.backgroundColor,
+        }
+        window.localStorage.setItem(savedMindMap.name, JSON.stringify(savedMindMap));
+        console.log("You've saved this mindmap:");
+        console.log(JSON.parse(window.localStorage.getItem(savedMindMap.name)));
+    }
     draw() {
         // highlighting selected keyword (default: this.coreKeyword):
         rectMode(CENTER);
@@ -174,7 +186,7 @@ function setup() {
     });
 
     // set background color function:
-    backgroundColor = "rgb(248, 249, 250)";
+    backgroundColor = mindmap.backgroundColor;
 }
 
 function mouseDragged(i) {
@@ -200,6 +212,7 @@ mindMapColorPicker.addEventListener("input", (e) => {
     let color = e.target.value;
     if (mindmap.globalColorFor === "mind map background") {
         backgroundColor = color;
+        mindmap.backgroundColor = backgroundColor;
     } else if (mindmap.globalColorFor === "text") {
         for (let i = 0; i < mindmap.keywords.length; i++) {
             mindmap.changeKeywordFontColor(i, color);
@@ -227,7 +240,7 @@ saveMindMapChangesBtn.addEventListener("click", () => {
 let deleteMindMapBtn = document.getElementById("delete-mind-map-btn");
 deleteMindMapBtn.addEventListener("click", () => {
     mindmap.keywords = Array(0);
-    mindmap.coreKeyword = {text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "rgb(0, 123, 255)"};
+    mindmap.coreKeyword = {text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "rgb(0, 123, 255)", lineColor: "black", borderColor: "black"};
     mindmap.selectedKeyword = mindmap.coreKeyword;
     backgroundColor = "rgb(248, 249, 250)";
     clearMindMapInputs();
@@ -238,6 +251,37 @@ function clearMindMapInputs() {
     mindMapColorPicker.value = "#000000";
     mindmap.globalColorFor = null;
 }
+
+let saveInput = document.getElementById("save-input");
+let mindMapName;
+saveInput.addEventListener("input", (e) => {
+    mindMapName = e.target.value;
+    console.log(mindMapName);
+});
+
+let saveBtn = document.getElementById("save-btn");
+saveBtn.addEventListener("click", () => {
+    mindmap.name = mindMapName;
+    console.log("Current mindmap will be saved under the name: " + mindmap.name);
+    mindmap.saveMindMap();
+});
+
+let openInput = document.getElementById("open-input");
+openInput.addEventListener("input", (e) => {
+    mindMapName = e.target.value;
+    console.log(mindMapName);
+});
+
+let openBtn = document.getElementById("open-btn");
+openBtn.addEventListener("click", () => {
+    let openedMindMap = JSON.parse(window.localStorage.getItem(mindMapName));
+    mindmap.name = openedMindMap.name;
+    mindmap.coreKeyword = openedMindMap.coreKeyword;
+    mindmap.keywords = openedMindMap.keywords;
+    mindmap.backgroundColor = openedMindMap.backgroundColor;
+
+    backgroundColor = mindmap.backgroundColor;
+});
 //========================== keyword settings navbar event listeners: ==================
 let keywordInput = document.getElementById("keyword-input");
 keywordInput.addEventListener("input", (e) => {
