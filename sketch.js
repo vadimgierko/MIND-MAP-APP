@@ -1,5 +1,9 @@
 let canvas, canvasDiv, canvasWidth, canvasHeight, mindmap, input, newText, menu, backgroundColor;
 
+let saveInput = document.getElementById("save-input");
+
+//window.localStorage.clear();
+
 class MindMap {
     constructor() {
         this.coreKeyword = {text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "rgb(0, 123, 255)", lineColor: "black", borderColor: "black"};
@@ -10,6 +14,14 @@ class MindMap {
         this.name = "";
         this.backgroundColor = "rgb(248, 249, 250)";
         this.settingsFor = "keyword";
+    }
+    setMindMapName(name) {
+        saveInput.value = "";
+        this.name = name;
+        console.log("You've set a name for this mindmap: " + this.name);
+        // change save input value for the new name automatically
+        saveInput.value = this.name;
+        this.saveMindMap();
     }
     addKeyword(keyword) {
         const keywords = this.keywords.slice();
@@ -103,7 +115,7 @@ class MindMap {
         // watermark:
         textSize(13);
         fill("grey");
-        text("created with MindMapApp", canvasWidth - 90, canvasHeight - 20);
+        text("created with MindMapsApp", canvasWidth - 90, canvasHeight - 20);
     }
     
     onMouseDragged(i) {
@@ -283,7 +295,7 @@ colorPicker.addEventListener("input", (e) => {
 let saveChangesBtn = document.getElementById("save-changes-btn");
 saveChangesBtn.addEventListener("click", () => {
     clearInputs();
-    // here saving entire map into local storage must be !!!
+    mindmap.saveMindMap();
 });
 
 deleteKeywordBtn.addEventListener("click", () => {
@@ -303,6 +315,8 @@ deleteMindMapBtn.addEventListener("click", () => {
         mindmap.selectedKeyword = mindmap.coreKeyword;
         backgroundColor = "rgb(248, 249, 250)";
         clearInputs();
+        alert("This mind map will be deleted & new one blank will be initiated :-)");
+        askForNameForMindMap();
     } else {
         alert("You can't delete mind map in keyword settings mode! If you want to delete current mind map, change settings for on mind map.");
     }
@@ -318,35 +332,39 @@ function clearInputs() {
 
 //========================== mind map seetings navbar event listeners: =================
 
-let saveInput = document.getElementById("save-input");
-let mindMapName;
+let savedMindMapName;
+let openedMindMapName;
+
 saveInput.addEventListener("input", (e) => {
-    mindMapName = e.target.value;
-    console.log(mindMapName);
+    savedMindMapName = e.target.value;
+    console.log(savedMindMapName);
 });
 
 let saveBtn = document.getElementById("save-btn");
 saveBtn.addEventListener("click", () => {
-    mindmap.name = mindMapName;
+    savedMindMapName ? mindmap.name = savedMindMapName : mindmap.name = mindmap.name;
     console.log("Current mindmap will be saved under the name: " + mindmap.name);
     mindmap.saveMindMap();
 });
 
 let openInput = document.getElementById("open-input");
 openInput.addEventListener("input", (e) => {
-    mindMapName = e.target.value;
-    console.log(mindMapName);
+    openedMindMapName = e.target.value;
+    console.log(openedMindMapName);
 });
 
 let openBtn = document.getElementById("open-btn");
 openBtn.addEventListener("click", () => {
-    let openedMindMap = JSON.parse(window.localStorage.getItem(mindMapName));
+    let openedMindMap = JSON.parse(window.localStorage.getItem(openedMindMapName));
     mindmap.name = openedMindMap.name;
     mindmap.coreKeyword = openedMindMap.coreKeyword;
     mindmap.keywords = openedMindMap.keywords;
     mindmap.backgroundColor = openedMindMap.backgroundColor;
 
     backgroundColor = mindmap.backgroundColor;
+    //change input value for opened mind map name:
+    saveInput.value = "";
+    saveInput.value = mindmap.name;
 });
 
 //============================== DRAW() ==========================
@@ -354,3 +372,11 @@ function draw() {
     background(backgroundColor);
     mindmap.draw();
 }
+
+function askForNameForMindMap() {
+    let nameForNewMindMap = prompt("Wait! Input the name for this new mind map first and remember the name. Your changes will be saved ander that name and you would be able to open this mind map in the future.");
+    mindmap.setMindMapName(nameForNewMindMap);
+    alert("You've saved this mind map. It's name is: " + mindmap.name);
+}
+
+window.addEventListener("click", askForNameForMindMap, {once: true});
