@@ -7,9 +7,9 @@ class MindMap {
         this.selectedIndex = null;
         this.keywords = Array(0);
         this.colorFor = null;
-        this.globalColorFor = null;
         this.name = "";
         this.backgroundColor = "rgb(248, 249, 250)";
+        this.settingsFor = "keyword";
     }
     addKeyword(keyword) {
         const keywords = this.keywords.slice();
@@ -97,14 +97,13 @@ class MindMap {
         noStroke();
         fill(coreKeyword.fontColor);
         textAlign("center", "center");
-        textSize(15);
+        textSize(17);
         text(coreKeyword.text, coreKeyword.x, coreKeyword.y);
-        textSize(12);
 
         // watermark:
-        
+        textSize(13);
         fill("grey");
-        text("created with MindMapApp", 695, 533);
+        text("created with MindMapApp", canvasWidth - 90, canvasHeight - 20);
     }
     
     onMouseDragged(i) {
@@ -131,7 +130,7 @@ class Keyword {
 }
 
 function setup() {
-    canvasHeight = 550;
+    canvasHeight = 650;
     canvasWidth = canvasHeight*1.414;
     // putting canvas into the div
     canvas = createCanvas(canvasWidth, canvasHeight);
@@ -201,56 +200,123 @@ function mouseDragged(i) {
     // enable to drag the coreKeyword ??
 }
 
-//========================== mind map seetings navbar event listeners: =================
-let mindMapSelectColorFor = document.getElementById("mind-map-select-color-for");
-mindMapSelectColorFor.addEventListener("change", () => {
-    mindmap.globalColorFor = mindMapSelectColorFor.value;
+//=============== SETTINGS FOR =========================================
+let deleteKeywordBtn = document.getElementById("delete-keyword-btn");
+let deleteMindMapBtn = document.getElementById("delete-mind-map-btn");
+
+let settingsChanger = document.getElementById("settings-for-select");
+settingsChanger.addEventListener("change", () => {
+    console.log("selected: " + settingsChanger.value);
+    mindmap.settingsFor = settingsChanger.value;
 });
 
-let mindMapColorPicker = document.getElementById("mind-map-color-picker");
-mindMapColorPicker.addEventListener("input", (e) => {
+let keywordInput = document.getElementById("keyword-input");
+
+keywordInput.addEventListener("input", (e) => {
+    if (settingsChanger.value !== "mindmap") {
+        let newText = e.target.value;
+        if (mindmap.selectedKeyword !== mindmap.coreKeyword) {
+            mindmap.editKeyword(mindmap.selectedIndex, newText);
+        } else {
+            mindmap.coreKeyword.text = newText;
+        }
+    } else {
+        alert("You can't change selected keyword text in mind map settings mode! If you want to change selected keyword text, change settings for on keyword.");
+    }
+});
+
+let selectColorFor = document.getElementById("select-color-for");
+selectColorFor.addEventListener("change", () => {
+    mindmap.colorFor = selectColorFor.value;
+    console.log(mindmap.colorFor);
+});
+
+let colorPicker = document.getElementById("color-picker");
+colorPicker.addEventListener("input", (e) => {
     let color = e.target.value;
-    if (mindmap.globalColorFor === "mind map background") {
-        backgroundColor = color;
-        mindmap.backgroundColor = backgroundColor;
-    } else if (mindmap.globalColorFor === "text") {
-        for (let i = 0; i < mindmap.keywords.length; i++) {
-            mindmap.changeKeywordFontColor(i, color);
+    if (settingsChanger.value === "keyword") {
+        if (mindmap.selectedKeyword !== mindmap.coreKeyword) {
+            if (mindmap.colorFor === "keyword background") {
+                mindmap.changeKeywordBackgroundColor(mindmap.selectedIndex, color);
+            } else if (mindmap.colorFor === "text") {
+                mindmap.changeKeywordFontColor(mindmap.selectedIndex, color);
+            } else if (mindmap.colorFor === "line") {
+                mindmap.changeKeywordLineColor(mindmap.selectedIndex, color);
+            } else if (mindmap.colorFor === "border") {
+                mindmap.changeKeywordBorderColor(mindmap.selectedIndex, color);
+            }
+        } else {
+            if (mindmap.colorFor === "keyword background") {
+                mindmap.coreKeyword.backgroundColor = color;
+            } else if (mindmap.colorFor === "text") {
+                mindmap.coreKeyword.fontColor = color;
+            } else if (mindmap.colorFor === "line") {
+                mindmap.coreKeyword.lineColor = color;
+            } else if (mindmap.colorFor === "border") {
+                mindmap.coreKeyword.borderColor = color;
+            }
         }
-    } else if (mindmap.globalColorFor === "keywords background") {
-        for (let i = 0; i < mindmap.keywords.length; i++) {
-            mindmap.changeKeywordBackgroundColor(i, color);
-        }
-    } else if (mindmap.globalColorFor === "lines") {
-        for (let i = 0; i < mindmap.keywords.length; i++) {
-            mindmap.changeKeywordLineColor(i, color);
-        }
-    } else if (mindmap.globalColorFor === "borders") {
-        for (let i = 0; i < mindmap.keywords.length; i++) {
-            mindmap.changeKeywordBorderColor(i, color);
+    } else if (settingsChanger.value === "mindmap") {
+        if (mindmap.colorFor === "mind map background") {
+            backgroundColor = color;
+            mindmap.backgroundColor = backgroundColor;
+        } else if (mindmap.colorFor === "text") {
+            for (let i = 0; i < mindmap.keywords.length; i++) {
+                mindmap.changeKeywordFontColor(i, color);
+            }
+        } else if (mindmap.colorFor === "keyword background") {
+            for (let i = 0; i < mindmap.keywords.length; i++) {
+                mindmap.changeKeywordBackgroundColor(i, color);
+            }
+        } else if (mindmap.colorFor === "line") {
+            for (let i = 0; i < mindmap.keywords.length; i++) {
+                mindmap.changeKeywordLineColor(i, color);
+            }
+        } else if (mindmap.colorFor === "border") {
+            for (let i = 0; i < mindmap.keywords.length; i++) {
+                mindmap.changeKeywordBorderColor(i, color);
+            }
         }
     }
 });
 
-let saveMindMapChangesBtn = document.getElementById("save-mind-map-changes-btn");
-saveMindMapChangesBtn.addEventListener("click", () => {
-    clearMindMapInputs();
+let saveChangesBtn = document.getElementById("save-changes-btn");
+saveChangesBtn.addEventListener("click", () => {
+    clearInputs();
+    // here saving entire map into local storage must be !!!
 });
 
-let deleteMindMapBtn = document.getElementById("delete-mind-map-btn");
+deleteKeywordBtn.addEventListener("click", () => {
+    if (settingsChanger.value === "keyword") {
+        console.log("index selected to delete: " + mindmap.selectedIndex);
+        mindmap.deleteKeyword(mindmap.selectedIndex);
+        clearInputs();
+    } else {
+        alert("You can't delete keywords in mind map settings mode! If you want to delete selected keyword, change settings for on keyword.");
+    }
+});
+
 deleteMindMapBtn.addEventListener("click", () => {
-    mindmap.keywords = Array(0);
-    mindmap.coreKeyword = {text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "rgb(0, 123, 255)", lineColor: "black", borderColor: "black"};
-    mindmap.selectedKeyword = mindmap.coreKeyword;
-    backgroundColor = "rgb(248, 249, 250)";
-    clearMindMapInputs();
+    if (settingsChanger.value === "mindmap") {
+        mindmap.keywords = Array(0);
+        mindmap.coreKeyword = {text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "rgb(0, 123, 255)", lineColor: "black", borderColor: "black"};
+        mindmap.selectedKeyword = mindmap.coreKeyword;
+        backgroundColor = "rgb(248, 249, 250)";
+        clearInputs();
+    } else {
+        alert("You can't delete mind map in keyword settings mode! If you want to delete current mind map, change settings for on mind map.");
+    }
 });
 
-function clearMindMapInputs() {
-    mindMapSelectColorFor.value = "set color for...";
-    mindMapColorPicker.value = "#000000";
-    mindmap.globalColorFor = null;
+function clearInputs() {
+    settingsChanger.value = "keyword";
+    keywordInput.value = "";
+    selectColorFor.value = "set color for...";
+    colorPicker.value = "#000000";
+    mindmap.colorFor = null;
 }
+
+//========================== mind map seetings navbar event listeners: =================
 
 let saveInput = document.getElementById("save-input");
 let mindMapName;
@@ -282,67 +348,6 @@ openBtn.addEventListener("click", () => {
 
     backgroundColor = mindmap.backgroundColor;
 });
-//========================== keyword settings navbar event listeners: ==================
-let keywordInput = document.getElementById("keyword-input");
-keywordInput.addEventListener("input", (e) => {
-    let newText = e.target.value;
-    if (mindmap.selectedKeyword !== mindmap.coreKeyword) {
-        mindmap.editKeyword(mindmap.selectedIndex, newText);
-    } else {
-        mindmap.coreKeyword.text = newText;
-    }
-});
-
-let keywordSelectColorFor = document.getElementById("keyword-select-color-for");
-keywordSelectColorFor.addEventListener("change", () => {
-    mindmap.colorFor = keywordSelectColorFor.value;
-    console.log(mindmap.colorFor);
-});
-
-let keywordColorPicker = document.getElementById("keyword-color-picker");
-keywordColorPicker.addEventListener("input", (e) => {
-    let color = e.target.value;
-    if (mindmap.selectedKeyword !== mindmap.coreKeyword) {
-        if (mindmap.colorFor === "background") {
-            mindmap.changeKeywordBackgroundColor(mindmap.selectedIndex, color);
-        } else if (mindmap.colorFor === "text") {
-            mindmap.changeKeywordFontColor(mindmap.selectedIndex, color);
-        } else if (mindmap.colorFor === "line") {
-            mindmap.changeKeywordLineColor(mindmap.selectedIndex, color);
-        } else if (mindmap.colorFor === "border") {
-            mindmap.changeKeywordBorderColor(mindmap.selectedIndex, color);
-        }
-    } else {
-        if (mindmap.colorFor === "background") {
-            mindmap.coreKeyword.backgroundColor = color;
-        } else if (mindmap.colorFor === "text") {
-            mindmap.coreKeyword.fontColor = color;
-        } else if (mindmap.colorFor === "line") {
-            mindmap.coreKeyword.lineColor = color;
-        } else if (mindmap.colorFor === "border") {
-            mindmap.coreKeyword.borderColor = color;
-        }
-    }
-});
-
-let saveKeywordChangesBtn = document.getElementById("save-keyword-changes-btn");
-saveKeywordChangesBtn.addEventListener("click", () => {
-    clearInputs();
-});
-
-let deleteKeywordBtn = document.getElementById("delete-keyword-btn");
-deleteKeywordBtn.addEventListener("click", () => {
-    console.log("index selected to delete: " + mindmap.selectedIndex);
-    mindmap.deleteKeyword(mindmap.selectedIndex);
-    clearInputs();
-});
-
-function clearInputs() {
-    keywordInput.value = "";
-    keywordSelectColorFor.value = "set color for...";
-    keywordColorPicker.value = "#000000";
-    mindmap.colorFor = null;
-}
 
 //============================== DRAW() ==========================
 function draw() {
