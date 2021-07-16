@@ -2,6 +2,7 @@ let canvas, canvasDiv, canvasWidth, canvasHeight, mindmap, input, newText, menu,
 
 let saveInput = document.getElementById("save-input");
 
+// if you want to clear local storage (delete all saved mindmaps), uncomment this code below:
 //window.localStorage.clear();
 
 class MindMap {
@@ -214,7 +215,7 @@ function mouseDragged(i) {
 
 //=============== SETTINGS FOR =========================================
 let deleteKeywordBtn = document.getElementById("delete-keyword-btn");
-let deleteMindMapBtn = document.getElementById("delete-mind-map-btn");
+let newMindMapBtn = document.getElementById("new-mind-map-btn");
 
 let settingsChanger = document.getElementById("settings-for-select");
 settingsChanger.addEventListener("change", () => {
@@ -308,15 +309,17 @@ deleteKeywordBtn.addEventListener("click", () => {
     }
 });
 
-deleteMindMapBtn.addEventListener("click", () => {
+newMindMapBtn.addEventListener("click", () => {
     if (settingsChanger.value === "mindmap") {
+        alert("This mind map will be saved & deleted & new one blank will be initiated :-)");
+        mindmap.saveMindMap();
+        
         mindmap.keywords = Array(0);
         mindmap.coreKeyword = {text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "rgb(0, 123, 255)", lineColor: "black", borderColor: "black"};
         mindmap.selectedKeyword = mindmap.coreKeyword;
         backgroundColor = "rgb(248, 249, 250)";
         clearInputs();
-        alert("This mind map will be deleted & new one blank will be initiated :-)");
-        askForNameForMindMap();
+        askForNameForMindMap();     
     } else {
         alert("You can't delete mind map in keyword settings mode! If you want to delete current mind map, change settings for on mind map.");
     }
