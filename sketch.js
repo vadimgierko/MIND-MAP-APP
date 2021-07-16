@@ -116,7 +116,7 @@ class MindMap {
         // watermark:
         textSize(13);
         fill("grey");
-        text("created with MindMapsApp", canvasWidth - 90, canvasHeight - 20);
+        text("created with MindMapsApp", canvasWidth - 90, canvasHeight - 15);
     }
     
     onMouseDragged(i) {
@@ -143,7 +143,7 @@ class Keyword {
 }
 
 function setup() {
-    canvasHeight = 650;
+    canvasHeight = 640;
     canvasWidth = canvasHeight*1.414;
     // putting canvas into the div
     canvas = createCanvas(canvasWidth, canvasHeight);
