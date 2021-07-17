@@ -5,6 +5,9 @@ let saveInput = document.getElementById("save-input");
 // if you want to clear local storage (delete all saved mindmaps), uncomment this code below:
 //window.localStorage.clear();
 
+// check the storage:
+console.log(window.localStorage);
+
 class MindMap {
     constructor() {
         this.coreKeyword = {text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "rgb(0, 123, 255)", lineColor: "black", borderColor: "black"};
@@ -358,11 +361,16 @@ openInput.addEventListener("input", (e) => {
 
 let openBtn = document.getElementById("open-btn");
 openBtn.addEventListener("click", () => {
+    // save current mindmap before open another one:
+    console.log("Before you open a new mind map, current mindmap will be saved under the name: " + mindmap.name);
+    mindmap.saveMindMap();
+
     let openedMindMap = JSON.parse(window.localStorage.getItem(openedMindMapName));
     mindmap.name = openedMindMap.name;
     mindmap.coreKeyword = openedMindMap.coreKeyword;
     mindmap.keywords = openedMindMap.keywords;
     mindmap.backgroundColor = openedMindMap.backgroundColor;
+    mindmap.selectedKeyword = mindmap.coreKeyword;
 
     backgroundColor = mindmap.backgroundColor;
     //change input value for opened mind map name:
