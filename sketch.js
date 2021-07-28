@@ -2,13 +2,10 @@ let canvas, canvasDiv, canvasWidth, canvasHeight, mindmap, input, newText, menu,
 
 let saveInput = document.getElementById("save-input");
 
-const templateMindMap = {"name":"template-mind-map","coreKeyword":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"},"keywords":[{"text":" MIND MAPS ","x":452.1799949499309,"y":243.5999984741211,"w":99,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}},{"text":"How to use this App?","x":454.1799065521409,"y":391.5999984741211,"w":180,"h":30,"fontColor":"#fafafa","backgroundColor":"#f50000","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}},{"text":"diagram","x":587.1740280991022,"y":199.5999984741211,"w":63,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":" MIND MAPS ","x":452.1799949499309,"y":243.5999984741211,"w":99,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}},{"text":"visually organize information","x":712.1685032372237,"y":251.5999984741211,"w":261,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"diagram","x":587.1740280991022,"y":199.5999984741211,"w":63,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":" MIND MAPS ","x":452.1799949499309,"y":243.5999984741211,"w":99,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}}},{"text":"hierarchy","x":671.1703153919199,"y":132.5999984741211,"w":81,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"diagram","x":587.1740280991022,"y":199.5999984741211,"w":63,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":" MIND MAPS ","x":452.1799949499309,"y":243.5999984741211,"w":99,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}}},{"text":"keywords","x":452.1799949499309,"y":167.5999984741211,"w":72,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":" MIND MAPS ","x":452.1799949499309,"y":243.5999984741211,"w":99,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}},{"text":"Core Keyword","x":367.18375185600826,"y":107.5999984741211,"w":108,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"keywords","x":452.1799949499309,"y":167.5999984741211,"w":72,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":" MIND MAPS ","x":452.1799949499309,"y":243.5999984741211,"w":99,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}}},{"text":"(sub) keywords","x":523.176856828384,"y":107.5999984741211,"w":126,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"keywords","x":452.1799949499309,"y":167.5999984741211,"w":72,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":" MIND MAPS ","x":452.1799949499309,"y":243.5999984741211,"w":99,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}}},{"text":"in the center","x":269.188083347721,"y":59.599998474121094,"w":117,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"Core Keyword","x":367.18375185600826,"y":107.5999984741211,"w":108,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"keywords","x":452.1799949499309,"y":167.5999984741211,"w":72,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":" MIND MAPS ","x":452.1799949499309,"y":243.5999984741211,"w":99,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}}}},{"text":"main topic","x":401.18224909357735,"y":56.599998474121094,"w":90,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"Core Keyword","x":367.18375185600826,"y":107.5999984741211,"w":108,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"keywords","x":452.1799949499309,"y":167.5999984741211,"w":72,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":" MIND MAPS ","x":452.1799949499309,"y":243.5999984741211,"w":99,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}}}},{"text":"subtopics","x":537.1762380438536,"y":44.599998474121094,"w":81,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"(sub) keywords","x":523.176856828384,"y":107.5999984741211,"w":126,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"keywords","x":452.1799949499309,"y":167.5999984741211,"w":72,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":" MIND MAPS ","x":452.1799949499309,"y":243.5999984741211,"w":99,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}}}},{"text":"linked","x":668.170447988605,"y":57.599998474121094,"w":54,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"(sub) keywords","x":523.176856828384,"y":107.5999984741211,"w":126,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"keywords","x":452.1799949499309,"y":167.5999984741211,"w":72,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":" MIND MAPS ","x":452.1799949499309,"y":243.5999984741211,"w":99,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}}}},{"text":"help to remember & recall","x":778.1655861101519,"y":183.5999984741211,"w":225,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"diagram","x":587.1740280991022,"y":199.5999984741211,"w":63,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":" MIND MAPS ","x":452.1799949499309,"y":243.5999984741211,"w":99,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}}},{"text":"colors","x":264.18830434219615,"y":163.5999984741211,"w":54,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":" MIND MAPS ","x":452.1799949499309,"y":243.5999984741211,"w":99,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}},{"text":"images/ icons","x":128.1943153919199,"y":169.5999984741211,"w":117,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":" MIND MAPS ","x":452.1799949499309,"y":243.5999984741211,"w":99,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}},{"text":"different fonts / font sizes","x":181.1919728504834,"y":251.5999984741211,"w":252,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":" MIND MAPS ","x":452.1799949499309,"y":243.5999984741211,"w":99,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}},{"text":"How to select a keyword?","x":187.19170765711326,"y":391.5999984741211,"w":216,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"How to use this App?","x":454.1799065521409,"y":391.5999984741211,"w":180,"h":30,"fontColor":"#fafafa","backgroundColor":"#f50000","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}},{"text":"double click","x":75.19665793335635,"y":445.5999984741211,"w":108,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"How to select a keyword?","x":187.19170765711326,"y":391.5999984741211,"w":216,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"How to use this App?","x":454.1799065521409,"y":391.5999984741211,"w":180,"h":30,"fontColor":"#fafafa","backgroundColor":"#f50000","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}}},{"text":"How to add a new keyword?","x":300.1867131819751,"y":447.5999984741211,"w":225,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"How to use this App?","x":454.1799065521409,"y":391.5999984741211,"w":180,"h":30,"fontColor":"#fafafa","backgroundColor":"#f50000","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}},{"text":"click at any place on canvas","x":175.1922380438536,"y":500.5999984741211,"w":252,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"How to add a new keyword?","x":300.1867131819751,"y":447.5999984741211,"w":225,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"How to use this App?","x":454.1799065521409,"y":391.5999984741211,"w":180,"h":30,"fontColor":"#fafafa","backgroundColor":"#f50000","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}}},{"text":"will be linked to selected keyword","x":172.19237064053868,"y":553.5999984741211,"w":306,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"click at any place on canvas","x":175.1922380438536,"y":500.5999984741211,"w":252,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"How to add a new keyword?","x":300.1867131819751,"y":447.5999984741211,"w":225,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"How to use this App?","x":454.1799065521409,"y":391.5999984741211,"w":180,"h":30,"fontColor":"#fafafa","backgroundColor":"#f50000","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}}}},{"text":"check menu for what you can do","x":454.1799065521409,"y":495.5999984741211,"w":270,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"How to use this App?","x":454.1799065521409,"y":391.5999984741211,"w":180,"h":30,"fontColor":"#fafafa","backgroundColor":"#f50000","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}},{"text":"with selected keyword","x":332.1852988173342,"y":596.5999984741211,"w":189,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"check menu for what you can do","x":454.1799065521409,"y":495.5999984741211,"w":270,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"How to use this App?","x":454.1799065521409,"y":391.5999984741211,"w":180,"h":30,"fontColor":"#fafafa","backgroundColor":"#f50000","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}}},{"text":"with entire mind map","x":547.1757960549033,"y":571.5999984741211,"w":180,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"check menu for what you can do","x":454.1799065521409,"y":495.5999984741211,"w":270,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"How to use this App?","x":454.1799065521409,"y":391.5999984741211,"w":180,"h":30,"fontColor":"#fafafa","backgroundColor":"#f50000","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}}},{"text":"save your mind map!","x":621.1725253366712,"y":450.5999984741211,"w":171,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"How to use this App?","x":454.1799065521409,"y":391.5999984741211,"w":180,"h":30,"fontColor":"#fafafa","backgroundColor":"#f50000","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}},{"text":"remember the name","x":807.1643043421961,"y":452.5999984741211,"w":153,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"save your mind map!","x":621.1725253366712,"y":450.5999984741211,"w":171,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"How to use this App?","x":454.1799065521409,"y":391.5999984741211,"w":180,"h":30,"fontColor":"#fafafa","backgroundColor":"#f50000","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}}},{"text":"then you can open & edit it","x":759.1664258891575,"y":501.5999984741211,"w":243,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"remember the name","x":807.1643043421961,"y":452.5999984741211,"w":153,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"save your mind map!","x":621.1725253366712,"y":450.5999984741211,"w":171,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"How to use this App?","x":454.1799065521409,"y":391.5999984741211,"w":180,"h":30,"fontColor":"#fafafa","backgroundColor":"#f50000","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}}}},{"text":"saved in your browser","x":756.1665584858425,"y":557.5999984741211,"w":189,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"save your mind map!","x":621.1725253366712,"y":450.5999984741211,"w":171,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"How to use this App?","x":454.1799065521409,"y":391.5999984741211,"w":180,"h":30,"fontColor":"#fafafa","backgroundColor":"#f50000","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}}},{"text":"want a PNG file?","x":660.1708015797652,"y":394.5999984741211,"w":144,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"How to use this App?","x":454.1799065521409,"y":391.5999984741211,"w":180,"h":30,"fontColor":"#fafafa","backgroundColor":"#f50000","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}},{"text":"click right mouse button","x":762.1662932924723,"y":335.5999984741211,"w":216,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"want a PNG file?","x":660.1708015797652,"y":394.5999984741211,"w":144,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"How to use this App?","x":454.1799065521409,"y":391.5999984741211,"w":180,"h":30,"fontColor":"#fafafa","backgroundColor":"#f50000","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}}},{"text":"click & drag keywords","x":164.1927242316989,"y":335.5999984741211,"w":189,"h":30,"fontColor":"black","backgroundColor":"white","lineColor":"black","borderColor":"black","parent":{"text":"How to use this App?","x":454.1799065521409,"y":391.5999984741211,"w":180,"h":30,"fontColor":"#fafafa","backgroundColor":"#f50000","lineColor":"black","borderColor":"black","parent":{"text":"MIND MAPS APP","x":452.47999999999996,"y":320,"w":270,"h":30,"fontColor":"white","backgroundColor":"rgb(0, 123, 255)","lineColor":"black","borderColor":"black"}}}],"backgroundColor":"#adadad"};
-console.log(templateMindMap);
-// if you want to clear local storage (delete all saved mindmaps), uncomment this code below:
-//window.localStorage.clear();
+//=== !!! all saved mind maps will be saved in local storage - they will be pushed in "mindmaps" item !!! ===//
 
-// check the storage:
-console.log(window.localStorage);
+// if you want to clear storage for this app (all saved pictures) uncomment the code below:
+//window.localStorage.removeItem("mindmaps");
 
 class MindMap {
     constructor() {
@@ -20,14 +17,6 @@ class MindMap {
         this.name = "";
         this.backgroundColor = "rgb(248, 249, 250)";
         this.settingsFor = "keyword";
-    }
-    setMindMapName(name) {
-        saveInput.value = "";
-        this.name = name;
-        console.log("You've set a name for this mindmap: " + this.name);
-        // change save input value for the new name automatically
-        saveInput.value = this.name;
-        this.saveMindMap();
     }
     addKeyword(keyword) {
         const keywords = this.keywords.slice();
@@ -71,16 +60,92 @@ class MindMap {
         this.selectedKeyword = this.coreKeyword;
         this.selectedIndex = null;
     }
-    saveMindMap() {
-        let savedMindMap = {
-            name: this.name,
-            coreKeyword: this.coreKeyword,
-            keywords: this.keywords,
-            backgroundColor: this.backgroundColor,
+    save() {
+        if (!this.name) { // if this is the new mind map without a name:
+            const mindMapName = prompt("Input the name for your new mind map. It will be saved in your browser under this name.");
+            this.name = mindMapName;
+            const savedMindMap = {
+                name: this.name,
+                coreKeyword: this.coreKeyword,
+                keywords: this.keywords,
+                backgroundColor: this.backgroundColor,
+            }
+            if (window.localStorage.getItem("mindmaps")) {
+                const savedMindMaps = JSON.parse(window.localStorage.getItem("mindmaps")); // return an array with objects inside
+                savedMindMaps.push({name: savedMindMap.name, mindmap: savedMindMap});
+                window.localStorage.setItem("mindmaps", JSON.stringify(savedMindMaps));
+            } else {
+                window.localStorage.setItem("mindmaps", JSON.stringify([{name: savedMindMap.name, mindmap: savedMindMap}]));
+            }
+            alert("You saved a new mind map named: " + savedMindMap.name + "! If you want to open it in the future, press open button and input the name.");
+        } else { // if this is an existing (saved) mind map, which means that it has a name automatically (for example set after opening):
+            const savedMindMap = {
+                name: this.name,
+                coreKeyword: this.coreKeyword,
+                keywords: this.keywords,
+                backgroundColor: this.backgroundColor,
+            }
+            const savedMindMaps = JSON.parse(window.localStorage.getItem("mindmaps")); // we are sure that there are such an item with an array inside
+            // search the previously saved version of this mind map by filtering names:
+            for (let i = 0; i < savedMindMaps.length; i++) {
+                let mindMapNameWeSearchFor = this.name;
+                if (savedMindMaps[i].name === mindMapNameWeSearchFor) {
+                    // this means that we need to overwrite savedMindMaps[i].mindmap:
+                    savedMindMaps[i].mindmap = savedMindMap; // or Object.assign...
+                    // and now overwrite it:
+                    window.localStorage.setItem("mindmaps", JSON.stringify(savedMindMaps));
+                }
+            }
+        }  
+    }
+    new() {
+        // ask if the mind map need saving?
+        let needSave = confirm("Do you want to save changes to the current mind map?");
+        if (needSave) {
+            this.save();
         }
-        window.localStorage.setItem(savedMindMap.name, JSON.stringify(savedMindMap));
-        console.log("You've saved this mindmap:");
-        console.log(JSON.parse(window.localStorage.getItem(savedMindMap.name)));
+        this.name = ""
+        this.keywords = Array(0);
+        this.coreKeyword = {text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "rgb(0, 123, 255)", lineColor: "black", borderColor: "black"};
+        this.selectedKeyword = this.coreKeyword;
+        backgroundColor = "rgb(248, 249, 250)";
+    }
+    open() {
+        // ask if the mind map need saving?
+        let needSave = confirm("Do you want to save changes to the current mind map?");
+        if (needSave) {
+            this.save();
+        }
+        if (window.localStorage.getItem("mindmaps")) {
+            // check the names of saved mind maps in storage:
+            let savedMindMapsNames = [];
+            const savedMindMaps = JSON.parse(window.localStorage.getItem("mindmaps")); // return an array with objects inside
+            for (let i = 0; i < savedMindMaps.length; i++) {
+              let savedMindMapName = savedMindMaps[i].name;
+              savedMindMapsNames.push(savedMindMapName);
+            }
+            // ask for name:
+            let inputedMindMapName = prompt(`Input the name of your saved mind map. There are the names of saved mind maps in your storage: ${savedMindMapsNames}.`);
+            // search the mind map by filtering names:
+            if (inputedMindMapName) {
+                for (let i = 0; i < savedMindMaps.length; i++) {
+                    let savedMindMapName = savedMindMaps[i].name;
+                    if (savedMindMapName === inputedMindMapName) {
+                        this.name = savedMindMaps[i].mindmap.name;
+                        this.coreKeyword = savedMindMaps[i].mindmap.coreKeyword;
+                        this.keywords = savedMindMaps[i].mindmap.keywords;
+                        this.backgroundColor = savedMindMaps[i].mindmap.backgroundColor;
+                        this.selectedKeyword = this.coreKeyword;
+
+                        backgroundColor = savedMindMaps[i].mindmap.backgroundColor;
+                    }
+                }
+            } else {
+              alert("You need to input some saved mind map name... or nothing will be opened...");
+            }
+          } else {
+            alert("There is no saved mind maps yet... Create a new one, save it and then try to open it ;-)");
+          }
     }
     draw() {
         // highlighting selected keyword (default: this.coreKeyword):
@@ -157,15 +222,7 @@ function setup() {
     canvasDiv = document.getElementById("canvas");
 
     mindmap = new MindMap();
-    /*  UNCOMMENT THIS IF YOU WANT TO SHOW TEMPLATE MIND MAP AS A WELCOME MIND MAP
-    mindmap.name = templateMindMap.name;
-    mindmap.coreKeyword = templateMindMap.coreKeyword;
-    mindmap.keywords = templateMindMap.keywords;
-    mindmap.backgroundColor = templateMindMap.backgroundColor;
-    mindmap.selectedKeyword = templateMindMap.coreKeyword;
-
-    backgroundColor = mindmap.backgroundColor;
-    */
+    
     canvasDiv.addEventListener("click", () => {
         for (let i = 0; i < mindmap.keywords.length; i++) {
             if (mouseX >= mindmap.keywords[i].x - mindmap.keywords[i].w/2 &&
@@ -227,8 +284,6 @@ function mouseDragged(i) {
 }
 
 //=============== SETTINGS FOR =========================================
-let deleteKeywordBtn = document.getElementById("delete-keyword-btn");
-let newMindMapBtn = document.getElementById("new-mind-map-btn");
 
 let settingsChanger = document.getElementById("settings-for-select");
 settingsChanger.addEventListener("change", () => {
@@ -306,12 +361,7 @@ colorPicker.addEventListener("input", (e) => {
     }
 });
 
-let saveChangesBtn = document.getElementById("save-changes-btn");
-saveChangesBtn.addEventListener("click", () => {
-    clearInputs();
-    mindmap.saveMindMap();
-});
-
+const deleteKeywordBtn = document.getElementById("delete-keyword-btn");
 deleteKeywordBtn.addEventListener("click", () => {
     if (settingsChanger.value === "keyword") {
         console.log("index selected to delete: " + mindmap.selectedIndex);
@@ -322,20 +372,25 @@ deleteKeywordBtn.addEventListener("click", () => {
     }
 });
 
+//========================== mind map seetings navbar event listeners: =================
+
+let newMindMapBtn = document.getElementById("new-mind-map-btn");
 newMindMapBtn.addEventListener("click", () => {
-    if (settingsChanger.value === "mindmap") {
-        alert("This mind map will be saved & deleted & new one blank will be initiated :-)");
-        mindmap.saveMindMap();
-        
-        mindmap.keywords = Array(0);
-        mindmap.coreKeyword = {text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "rgb(0, 123, 255)", lineColor: "black", borderColor: "black"};
-        mindmap.selectedKeyword = mindmap.coreKeyword;
-        backgroundColor = "rgb(248, 249, 250)";
-        clearInputs();
-        askForNameForMindMap();     
-    } else {
-        alert("You can't delete mind map in keyword settings mode! If you want to delete current mind map, change settings for on mind map.");
-    }
+    mindmap.new();
+    clearInputs();
+});
+
+let saveBtn = document.getElementById("save-btn");
+saveBtn.addEventListener("click", () => {
+    mindmap.save();
+    alert("You saved a mind map named: " + savedMindMap.name + "! If you want to open it in the future, press open button and input the name.");
+    clearInputs();
+});
+
+let openBtn = document.getElementById("open-btn");
+openBtn.addEventListener("click", () => {
+    mindmap.open();
+    clearInputs()
 });
 
 function clearInputs() {
@@ -346,58 +401,8 @@ function clearInputs() {
     mindmap.colorFor = null;
 }
 
-//========================== mind map seetings navbar event listeners: =================
-
-let savedMindMapName;
-let openedMindMapName;
-
-saveInput.addEventListener("input", (e) => {
-    savedMindMapName = e.target.value;
-    console.log(savedMindMapName);
-});
-
-let saveBtn = document.getElementById("save-btn");
-saveBtn.addEventListener("click", () => {
-    savedMindMapName ? mindmap.name = savedMindMapName : mindmap.name = mindmap.name;
-    console.log("Current mindmap will be saved under the name: " + mindmap.name);
-    mindmap.saveMindMap();
-});
-
-let openInput = document.getElementById("open-input");
-openInput.addEventListener("input", (e) => {
-    openedMindMapName = e.target.value;
-    console.log(openedMindMapName);
-});
-
-let openBtn = document.getElementById("open-btn");
-openBtn.addEventListener("click", () => {
-    // save current mindmap before open another one:
-    console.log("Before you open a new mind map, current mindmap will be saved under the name: " + mindmap.name);
-    mindmap.saveMindMap();
-
-    let openedMindMap = JSON.parse(window.localStorage.getItem(openedMindMapName));
-    mindmap.name = openedMindMap.name;
-    mindmap.coreKeyword = openedMindMap.coreKeyword;
-    mindmap.keywords = openedMindMap.keywords;
-    mindmap.backgroundColor = openedMindMap.backgroundColor;
-    mindmap.selectedKeyword = mindmap.coreKeyword;
-
-    backgroundColor = mindmap.backgroundColor;
-    //change input value for opened mind map name:
-    saveInput.value = "";
-    saveInput.value = mindmap.name;
-});
-
 //============================== DRAW() ==========================
 function draw() {
     background(backgroundColor);
     mindmap.draw();
 }
-
-function askForNameForMindMap() {
-    let nameForNewMindMap = prompt("Wait! Input the name for this new mind map first and remember the name. Your changes will be saved ander that name and you would be able to open this mind map in the future.");
-    mindmap.setMindMapName(nameForNewMindMap);
-    alert("You've saved this mind map. It's name is: " + mindmap.name);
-}
-
-//window.addEventListener("click", askForNameForMindMap, {once: true});
