@@ -27,11 +27,22 @@ class User {
         this.name = name;
         this.mindmaps = mindmaps;
         this.currentMindMap = null;
+        this.isLogged = false;
+
     }
     signUp(email, password) {
         firebase.auth().createUserWithEmailAndPassword(email, password).catch(error => alert(error.message));
     }
-
+    signOut() {
+        firebase.auth().signOut();
+    }
+    clearData() {
+        this.uid = null;
+        this.name = null;
+        this.mindmaps = null;
+        this.currentMindMap = null;
+        this.isLogged = false;
+    }
 }
 class MindMap {
     constructor() {
@@ -439,6 +450,29 @@ signUpBtn.addEventListener("click", () => {
     let password = prompt("Input your password");
     if (email && password) {
         currentUser.signUp(email, password);
+    }
+});
+
+signOutBtn.addEventListener("click", () => currentUser.signOut());
+
+// CHECK IF USER IS SIGNED IN => assign uid to currentUserId and print it in console + get the user data:
+firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+        console.log("user is signed in");
+        currentUser.isLogged = true;
+        console.log("currentUser.isLogged ? " + currentUser.isLogged);
+        currentUser.uid = user.uid;
+        console.log("current user's id = " + currentUser.uid);
+        
+        //getUserData();
+    } else {
+        console.log("user is not signed in");
+        currentUser.isLogged = false;
+        console.log("currentUser.isLogged = ? " + currentUser.isLogged);
+        currentUser.uid = "";
+        console.log("current user's id = " + currentUser.uid);
+
+        currentUser.clearData();
     }
 });
 
