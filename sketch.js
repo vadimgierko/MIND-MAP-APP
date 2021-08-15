@@ -33,6 +33,13 @@ class User {
     signUp(email, password) {
         firebase.auth().createUserWithEmailAndPassword(email, password).catch(error => alert(error.message));
     }
+    signIn(email, password) {
+        firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(auth => {
+            //userInfo.textContent = auth.user.email + " is logged in; user's id = " + auth.user.uid;
+        }) //console.log(auth.user.email)
+        .catch(error => alert(error.message));
+    }
     signOut() {
         firebase.auth().signOut();
     }
@@ -450,6 +457,14 @@ signUpBtn.addEventListener("click", () => {
     let password = prompt("Input your password");
     if (email && password) {
         currentUser.signUp(email, password);
+    }
+});
+
+signInBtn.addEventListener("click", () => {
+    let email = prompt("Input your email address");
+    let password = prompt("Input your password");
+    if (email && password) {
+        currentUser.signIn(email, password);
     }
 });
 
