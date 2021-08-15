@@ -1,3 +1,17 @@
+// Your web app's Firebase configuration
+var firebaseConfig = {
+    apiKey: "AIzaSyDEtbRV4bP1k3skVQoHfvwrsC2dO0pp4lQ",
+    authDomain: "mindmapsapp-536fa.firebaseapp.com",
+    projectId: "mindmapsapp-536fa",
+    storageBucket: "mindmapsapp-536fa.appspot.com",
+    messagingSenderId: "422593172613",
+    appId: "1:422593172613:web:7435d6bb408714794045ec"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+let currentUser;
+
 let canvas, canvasDiv, canvasWidth, canvasHeight, mindmap, input, newText, menu, backgroundColor;
 
 let saveInput = document.getElementById("save-input");
@@ -7,6 +21,18 @@ let saveInput = document.getElementById("save-input");
 // if you want to clear storage for this app (all saved pictures) uncomment the code below:
 //window.localStorage.removeItem("mindmaps");
 
+class User {
+    constructor(uid, name, mindmaps) {
+        this.uid = uid;
+        this.name = name;
+        this.mindmaps = mindmaps;
+        this.currentMindMap = null;
+    }
+    signUp(email, password) {
+        firebase.auth().createUserWithEmailAndPassword(email, password).catch(error => alert(error.message));
+    }
+
+}
 class MindMap {
     constructor() {
         this.coreKeyword = {text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "rgb(0, 123, 255)", lineColor: "black", borderColor: "black"};
@@ -221,6 +247,7 @@ function setup() {
     // auto resizing canvasDiv to canvas width and height
     canvasDiv = document.getElementById("canvas");
 
+    currentUser = new User(null, null, null);
     mindmap = new MindMap();
     
     canvasDiv.addEventListener("click", () => {
@@ -400,6 +427,20 @@ function clearInputs() {
     colorPicker.value = "#000000";
     mindmap.colorFor = null;
 }
+
+// USER AUTH 
+
+const signInBtn = document.getElementById("sign-in-btn");
+const signUpBtn = document.getElementById("sign-up-btn");
+const signOutBtn = document.getElementById("sign-out-btn");
+
+signUpBtn.addEventListener("click", () => {
+    let email = prompt("Input your email address");
+    let password = prompt("Input your password");
+    if (email && password) {
+        currentUser.signUp(email, password);
+    }
+});
 
 //============================== DRAW() ==========================
 function draw() {
