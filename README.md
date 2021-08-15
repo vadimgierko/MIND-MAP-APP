@@ -1,5 +1,7 @@
 ABOUT APP:
 
+(Note: this branch is dedicated to integration of this app with firebase currently - the process is on, so if you want to see the source code of app that you see in github pages, which is saving your mindmaps in local storage, check out the new-1-navabar-bigger-canvas-version branch)
+
 Mind Maps App is a very simple, intuitive and easy to use application for online mindmapping.
 
 This app allows you to put keywords in any place (not like in other mindmapping apps), what means that you are totally free and not limited by a default structure!
