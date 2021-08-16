@@ -22,10 +22,11 @@ let saveInput = document.getElementById("save-input");
 //window.localStorage.removeItem("mindmaps");
 
 class User {
-    constructor(uid, name, mindmaps) {
+    constructor(uid, name, mindmaps, email) {
         this.uid = uid;
         this.name = name;
         this.mindmaps = mindmaps;
+        this.email = email;
         this.currentMindMap = null;
         this.isLogged = false;
 
@@ -49,8 +50,10 @@ class User {
         this.mindmaps = null;
         this.currentMindMap = null;
         this.isLogged = false;
+        this.email = null;
     }
 }
+
 class MindMap {
     constructor() {
         this.coreKeyword = {text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "rgb(0, 123, 255)", lineColor: "black", borderColor: "black"};
@@ -265,7 +268,7 @@ function setup() {
     // auto resizing canvasDiv to canvas width and height
     canvasDiv = document.getElementById("canvas");
 
-    currentUser = new User(null, null, null);
+    currentUser = new User(null, null, null, null);
     mindmap = new MindMap();
     
     canvasDiv.addEventListener("click", () => {
@@ -449,8 +452,15 @@ function clearInputs() {
 // USER AUTH 
 
 const signInBtn = document.getElementById("sign-in-btn");
+const $signInBtn = $("#sign-in-btn");
+
 const signUpBtn = document.getElementById("sign-up-btn");
+const $signUpBtn = $("#sign-up-btn");
+
 const signOutBtn = document.getElementById("sign-out-btn");
+const $signOutBtn = $("#sign-out-btn");
+
+const $userEmail = $("#user-email");
 
 signUpBtn.addEventListener("click", () => {
     let email = prompt("Input your email address");
@@ -478,14 +488,28 @@ firebase.auth().onAuthStateChanged(user => {
         console.log("currentUser.isLogged ? " + currentUser.isLogged);
         currentUser.uid = user.uid;
         console.log("current user's id = " + currentUser.uid);
+        currentUser.email = user.email;
+        console.log("current user's email = " + currentUser.email);
         
-        //getUserData();
+        // show sign out button $ hide other:
+        $signOutBtn.show();
+        $userEmail.text(currentUser.email).show();
+        $signInBtn.hide();
+        $signUpBtn.hide();
+
+        //getUserData(); // here we're gone to get all users mindmaps 
     } else {
         console.log("user is not signed in");
         currentUser.isLogged = false;
         console.log("currentUser.isLogged = ? " + currentUser.isLogged);
         currentUser.uid = "";
         console.log("current user's id = " + currentUser.uid);
+
+        // show sign in / up buttons $ hide sign out:
+        $signOutBtn.hide();
+        $userEmail.hide();
+        $signInBtn.show();
+        $signUpBtn.show();
 
         currentUser.clearData();
     }
