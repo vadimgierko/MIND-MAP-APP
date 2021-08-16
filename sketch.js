@@ -109,22 +109,17 @@ class MindMap {
     }
     save() {
         if (!this.name) { // if this is the new mind map without a name:
-            const mindMapName = prompt("Input the name for your new mind map. It will be saved in your browser under this name.");
+            const mindMapName = prompt("Input the name for your new mind map. It will be saved in your database under this name.");
             this.name = mindMapName;
-            const savedMindMap = {
+            // putting the mind map into database:
+            const mindMapRef = firebase.database().ref(currentUser.uid + "/mindmaps/" + this.name);
+            mindMapRef.set({
                 name: this.name,
                 coreKeyword: this.coreKeyword,
-                keywords: this.keywords,
+                keywords: this.keywords, // ARRAY WITH OBJECTS!!! => in database index of the array is a name of a keyword object
                 backgroundColor: this.backgroundColor,
-            }
-            if (window.localStorage.getItem("mindmaps")) {
-                const savedMindMaps = JSON.parse(window.localStorage.getItem("mindmaps")); // return an array with objects inside
-                savedMindMaps.push({name: savedMindMap.name, mindmap: savedMindMap});
-                window.localStorage.setItem("mindmaps", JSON.stringify(savedMindMaps));
-            } else {
-                window.localStorage.setItem("mindmaps", JSON.stringify([{name: savedMindMap.name, mindmap: savedMindMap}]));
-            }
-            alert("You saved a new mind map named: " + savedMindMap.name + "! If you want to open it in the future, press open button and input the name.");
+            });
+            alert("You saved a new mind map named: " + this.name + "! If you want to open it in the future, press open button and input the name.");
         } else { // if this is an existing (saved) mind map, which means that it has a name automatically (for example set after opening):
             const savedMindMap = {
                 name: this.name,
@@ -420,7 +415,7 @@ deleteKeywordBtn.addEventListener("click", () => {
     }
 });
 
-//========================== mind map seetings navbar event listeners: =================
+//========================== SAVE / OPEN / NEW mind map seetings navbar event listeners: ==========
 
 let newMindMapBtn = document.getElementById("new-mind-map-btn");
 newMindMapBtn.addEventListener("click", () => {
@@ -430,9 +425,12 @@ newMindMapBtn.addEventListener("click", () => {
 
 let saveBtn = document.getElementById("save-btn");
 saveBtn.addEventListener("click", () => {
-    mindmap.save();
-    alert("You saved a mind map named: " + savedMindMap.name + "! If you want to open it in the future, press open button and input the name.");
-    clearInputs();
+    if (currentUser.isLogged) {
+        mindmap.save();
+        clearInputs();
+    } else {
+        alert("You need to sign in if you want to save a mind map!");
+    }
 });
 
 let openBtn = document.getElementById("open-btn");
