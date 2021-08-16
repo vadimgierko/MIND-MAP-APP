@@ -29,7 +29,6 @@ class User {
         this.email = email;
         this.currentMindMap = null;
         this.isLogged = false;
-
     }
     signUp(email, password) {
         firebase.auth().createUserWithEmailAndPassword(email, password).catch(error => alert(error.message));
@@ -43,6 +42,22 @@ class User {
     }
     signOut() {
         firebase.auth().signOut();
+    }
+    getMindMaps() {
+        let mindmaps = [];
+        const mindMapsRef = firebase.database().ref(currentUser.uid + "/mindmaps");
+        mindMapsRef.once("value")
+            .then(snapshot => {
+                if (snapshot) {
+                    snapshot.forEach(item => {
+                    const fetchedMindMap = item.val();
+                    mindmaps.push(fetchedMindMap);
+                });
+                console.log(mindmaps);
+                this.mindmaps = mindmaps;
+                console.log(this.mindmaps);
+                }
+            });  
     }
     clearData() {
         this.uid = null;
@@ -121,6 +136,7 @@ class MindMap {
             });
             alert("You saved a new mind map named: " + this.name + "! If you want to open it in the future, press open button and input the name.");
         } else { // if this is an existing (saved) mind map, which means that it has a name automatically (for example set after opening):
+            /*
             const savedMindMap = {
                 name: this.name,
                 coreKeyword: this.coreKeyword,
@@ -138,6 +154,7 @@ class MindMap {
                     window.localStorage.setItem("mindmaps", JSON.stringify(savedMindMaps));
                 }
             }
+            */
         }  
     }
     new() {
@@ -146,7 +163,7 @@ class MindMap {
         if (needSave) {
             this.save();
         }
-        this.name = ""
+        this.name = "";
         this.keywords = Array(0);
         this.coreKeyword = {text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "rgb(0, 123, 255)", lineColor: "black", borderColor: "black"};
         this.selectedKeyword = this.coreKeyword;
@@ -158,36 +175,35 @@ class MindMap {
         if (needSave) {
             this.save();
         }
-        if (window.localStorage.getItem("mindmaps")) {
+        if (currentUser.mindmaps.length) {
             // check the names of saved mind maps in storage:
             let savedMindMapsNames = [];
-            const savedMindMaps = JSON.parse(window.localStorage.getItem("mindmaps")); // return an array with objects inside
-            for (let i = 0; i < savedMindMaps.length; i++) {
-              let savedMindMapName = savedMindMaps[i].name;
+            for (let i = 0; i < currentUser.mindmaps.length; i++) {
+              let savedMindMapName = currentUser.mindmaps[i].name;
               savedMindMapsNames.push(savedMindMapName);
             }
             // ask for name:
             let inputedMindMapName = prompt(`Input the name of your saved mind map. There are the names of saved mind maps in your storage: ${savedMindMapsNames}.`);
             // search the mind map by filtering names:
             if (inputedMindMapName) {
-                for (let i = 0; i < savedMindMaps.length; i++) {
-                    let savedMindMapName = savedMindMaps[i].name;
+                for (let i = 0; i < currentUser.mindmaps.length; i++) {
+                    let savedMindMapName = currentUser.mindmaps[i].name;
                     if (savedMindMapName === inputedMindMapName) {
-                        this.name = savedMindMaps[i].mindmap.name;
-                        this.coreKeyword = savedMindMaps[i].mindmap.coreKeyword;
-                        this.keywords = savedMindMaps[i].mindmap.keywords;
-                        this.backgroundColor = savedMindMaps[i].mindmap.backgroundColor;
+                        this.name = currentUser.mindmaps[i].name;
+                        this.coreKeyword = currentUser.mindmaps[i].coreKeyword;
+                        this.keywords = currentUser.mindmaps[i].keywords;
+                        this.backgroundColor = currentUser.mindmaps[i].backgroundColor;
                         this.selectedKeyword = this.coreKeyword;
 
-                        backgroundColor = savedMindMaps[i].mindmap.backgroundColor;
+                        backgroundColor = currentUser.mindmaps[i].backgroundColor;
                     }
                 }
             } else {
               alert("You need to input some saved mind map name... or nothing will be opened...");
             }
-          } else {
+        } else {
             alert("There is no saved mind maps yet... Create a new one, save it and then try to open it ;-)");
-          }
+        }
     }
     draw() {
         // highlighting selected keyword (default: this.coreKeyword):
@@ -419,8 +435,12 @@ deleteKeywordBtn.addEventListener("click", () => {
 
 let newMindMapBtn = document.getElementById("new-mind-map-btn");
 newMindMapBtn.addEventListener("click", () => {
-    mindmap.new();
-    clearInputs();
+    if (currentUser.isLogged) {
+        mindmap.new();
+        clearInputs();
+    } else {
+        alert("You need to sign in (or sign up) if you want to initiate a new mind map!");
+    }
 });
 
 let saveBtn = document.getElementById("save-btn");
@@ -429,14 +449,18 @@ saveBtn.addEventListener("click", () => {
         mindmap.save();
         clearInputs();
     } else {
-        alert("You need to sign in if you want to save a mind map!");
+        alert("You need to sign in (or sign up) if you want to save a mind map!");
     }
 });
 
 let openBtn = document.getElementById("open-btn");
 openBtn.addEventListener("click", () => {
-    mindmap.open();
-    clearInputs()
+    if (currentUser.isLogged) {
+        mindmap.open();
+        clearInputs();
+    } else {
+        alert("You need to sign in (or sign up) if you want to open one of your saved mind maps!");
+    }
 });
 
 function clearInputs() {
@@ -495,21 +519,15 @@ firebase.auth().onAuthStateChanged(user => {
         $signInBtn.hide();
         $signUpBtn.hide();
 
-        //getUserData(); // here we're gone to get all users mindmaps 
+        currentUser.getMindMaps(); // here we're gone to get all users mindmaps 
     } else {
-        console.log("user is not signed in");
-        currentUser.isLogged = false;
-        console.log("currentUser.isLogged = ? " + currentUser.isLogged);
-        currentUser.uid = "";
-        console.log("current user's id = " + currentUser.uid);
-
+        currentUser.clearData();
+        console.log(currentUser);
         // show sign in / up buttons $ hide sign out:
         $signOutBtn.hide();
         $userEmail.hide();
         $signInBtn.show();
         $signUpBtn.show();
-
-        currentUser.clearData();
     }
 });
 
