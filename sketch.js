@@ -16,11 +16,6 @@ let canvas, canvasDiv, canvasWidth, canvasHeight, mindmap, input, newText, menu,
 
 let saveInput = document.getElementById("save-input");
 
-//=== !!! all saved mind maps will be saved in local storage - they will be pushed in "mindmaps" item !!! ===//
-
-// if you want to clear storage for this app (all saved pictures) uncomment the code below:
-//window.localStorage.removeItem("mindmaps");
-
 class User {
     constructor(uid, name, mindmaps, email) {
         this.uid = uid;
@@ -81,7 +76,12 @@ class MindMap {
         this.settingsFor = "keyword";
     }
     addKeyword(keyword) {
-        const keywords = this.keywords.slice();
+        let keywords;
+        if (this.keywords) {
+            keywords = this.keywords.slice();
+        } else {
+            keywords = [];
+        }
         keywords.push(keyword);
         this.keywords = keywords;
       
@@ -90,28 +90,53 @@ class MindMap {
         console.log(this.keywords);
     }
     editKeyword(i, text) {
-        const keywords = this.keywords.slice();
+        let keywords;
+        if (this.keywords) {
+            keywords = this.keywords.slice();
+        } else {
+            keywords = [];
+        }
         keywords[i].text = text;
         keywords[i].w = text.length*9;
         this.keywords = keywords;
     }
     changeKeywordBackgroundColor(i, color) {
-        const keywords = this.keywords.slice();
+        let keywords;
+        if (this.keywords) {
+            keywords = this.keywords.slice();
+        } else {
+            keywords = [];
+        }
         keywords[i].backgroundColor = color;
         this.keywords = keywords;
     }
     changeKeywordFontColor(i, color) {
-        const keywords = this.keywords.slice();
+        let keywords;
+        if (this.keywords) {
+            keywords = this.keywords.slice();
+        } else {
+            keywords = [];
+        }
         keywords[i].fontColor = color;
         this.keywords = keywords;
     }
     changeKeywordLineColor(i, color) {
-        const keywords = this.keywords.slice();
+        let keywords;
+        if (this.keywords) {
+            keywords = this.keywords.slice();
+        } else {
+            keywords = [];
+        }
         keywords[i].lineColor = color;
         this.keywords = keywords;
     }
     changeKeywordBorderColor(i, color) {
-        const keywords = this.keywords.slice();
+        let keywords;
+        if (this.keywords) {
+            keywords = this.keywords.slice();
+        } else {
+            keywords = [];
+        }
         keywords[i].borderColor = color;
         this.keywords = keywords;
     }
@@ -136,26 +161,17 @@ class MindMap {
             });
             alert("You saved a new mind map named: " + this.name + "! If you want to open it in the future, press open button and input the name.");
         } else { // if this is an existing (saved) mind map, which means that it has a name automatically (for example set after opening):
-            /*
-            const savedMindMap = {
+            // putting the mind map into database:
+            const mindMapRef = firebase.database().ref(currentUser.uid + "/mindmaps/" + this.name);
+            mindMapRef.set({
                 name: this.name,
                 coreKeyword: this.coreKeyword,
-                keywords: this.keywords,
+                keywords: this.keywords, // ARRAY WITH OBJECTS!!! => in database index of the array is a name of a keyword object
                 backgroundColor: this.backgroundColor,
-            }
-            const savedMindMaps = JSON.parse(window.localStorage.getItem("mindmaps")); // we are sure that there are such an item with an array inside
-            // search the previously saved version of this mind map by filtering names:
-            for (let i = 0; i < savedMindMaps.length; i++) {
-                let mindMapNameWeSearchFor = this.name;
-                if (savedMindMaps[i].name === mindMapNameWeSearchFor) {
-                    // this means that we need to overwrite savedMindMaps[i].mindmap:
-                    savedMindMaps[i].mindmap = savedMindMap; // or Object.assign...
-                    // and now overwrite it:
-                    window.localStorage.setItem("mindmaps", JSON.stringify(savedMindMaps));
-                }
-            }
-            */
-        }  
+            });
+            alert("You saved an existing " + this.name + " mind map! If you want to open it in the future, press open button and input the name.");
+        }
+        currentUser.getMindMaps();
     }
     new() {
         // ask if the mind map need saving?
@@ -198,6 +214,7 @@ class MindMap {
                         backgroundColor = currentUser.mindmaps[i].backgroundColor;
                     }
                 }
+                console.log(this);
             } else {
               alert("You need to input some saved mind map name... or nothing will be opened...");
             }
@@ -212,7 +229,13 @@ class MindMap {
         fill("yellow");
         rect(this.selectedKeyword.x, this.selectedKeyword.y, this.selectedKeyword.w + 7, this.selectedKeyword.h + 7, 5);
         // draw keywords:
-        for (let i = this.keywords.length; i > 0; i--) {
+        let keywordsLength;
+        if (this.keywords) {
+            keywordsLength = this.keywords.length;
+        } else {
+            keywordsLength = 0;
+        }
+        for (let i = keywordsLength; i > 0; i--) {
             let keyword = this.keywords[i - 1];
             rectMode(CENTER);
             //line color:
@@ -283,7 +306,13 @@ function setup() {
     mindmap = new MindMap();
     
     canvasDiv.addEventListener("click", () => {
-        for (let i = 0; i < mindmap.keywords.length; i++) {
+        let keywordsLength;
+        if (mindmap.keywords) {
+            keywordsLength = mindmap.keywords.length;
+        } else {
+            keywordsLength = 0;
+        }
+        for (let i = 0; i < keywordsLength; i++) {
             if (mouseX >= mindmap.keywords[i].x - mindmap.keywords[i].w/2 &&
                 mouseX <= mindmap.keywords[i].x + mindmap.keywords[i].w/2 &&
                 mouseY >= mindmap.keywords[i].y - mindmap.keywords[i].h/2 &&
