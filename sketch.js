@@ -443,6 +443,7 @@ const signOutBtn = document.getElementById("sign-out-btn");
 const $signOutBtn = $("#sign-out-btn");
 
 const $userEmail = $("#user-email");
+const $userIcon = $("#user-icon");
 
 signUpBtn.addEventListener("click", () => {
     let email = prompt("Input your email address");
@@ -474,12 +475,13 @@ firebase.auth().onAuthStateChanged(user => {
         console.log("current user's email = " + currentUser.email);
         
         // show sign out button $ hide other:
-        $signOutBtn.show();
         $userEmail.text(currentUser.email).show();
+        $userIcon.show();
+        $signOutBtn.show();
         $signInBtn.hide();
         $signUpBtn.hide();
 
-        currentUser.getMindMaps(); // here we're gone to get all users mindmaps 
+        currentUser.getMindMaps(); 
     } else {
         currentUser.clearData();
         console.log(currentUser);
@@ -489,6 +491,7 @@ firebase.auth().onAuthStateChanged(user => {
         // show sign in / up buttons $ hide sign out:
         $signOutBtn.hide();
         $userEmail.hide();
+        $userIcon.hide();
         $signInBtn.show();
         $signUpBtn.show();
     }
