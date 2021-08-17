@@ -66,22 +66,31 @@ class User {
 
 class MindMap {
     constructor() {
-        this.coreKeyword = {text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "rgb(0, 123, 255)", lineColor: "black", borderColor: "black"};
-        this.selectedKeyword = this.coreKeyword;
-        this.selectedIndex = null;
-        this.keywords = Array(0);
+        this.coreKeyword = {
+            text: "Core Keyword",
+            x: canvasWidth/2,
+            y: canvasHeight/2,
+            w: 270,
+            h: 30,
+            fontColor: "white",
+            backgroundColor: "rgb(0, 123, 255)",
+            lineColor: "black",
+            borderColor: "black",
+            parentIndex: 0,
+        };
+        // this.keywords = Array(0);
+        this.keywords = Array(this.coreKeyword);
+        //this.selectedKeyword = this.coreKeyword;
+        this.selectedIndex = 0; //null
+        this.selectedKeyword = this.keywords[this.selectedIndex];
+        
         this.colorFor = null;
         this.name = "";
         this.backgroundColor = "rgb(248, 249, 250)";
         this.settingsFor = "keyword";
     }
     addKeyword(keyword) {
-        let keywords;
-        if (this.keywords) {
-            keywords = this.keywords.slice();
-        } else {
-            keywords = [];
-        }
+        const keywords = this.keywords.slice();
         keywords.push(keyword);
         this.keywords = keywords;
       
@@ -90,53 +99,28 @@ class MindMap {
         console.log(this.keywords);
     }
     editKeyword(i, text) {
-        let keywords;
-        if (this.keywords) {
-            keywords = this.keywords.slice();
-        } else {
-            keywords = [];
-        }
+        const keywords = this.keywords.slice();
         keywords[i].text = text;
         keywords[i].w = text.length*9;
         this.keywords = keywords;
     }
     changeKeywordBackgroundColor(i, color) {
-        let keywords;
-        if (this.keywords) {
-            keywords = this.keywords.slice();
-        } else {
-            keywords = [];
-        }
+        const keywords = this.keywords.slice();
         keywords[i].backgroundColor = color;
         this.keywords = keywords;
     }
     changeKeywordFontColor(i, color) {
-        let keywords;
-        if (this.keywords) {
-            keywords = this.keywords.slice();
-        } else {
-            keywords = [];
-        }
+        const keywords = this.keywords.slice();
         keywords[i].fontColor = color;
         this.keywords = keywords;
     }
     changeKeywordLineColor(i, color) {
-        let keywords;
-        if (this.keywords) {
-            keywords = this.keywords.slice();
-        } else {
-            keywords = [];
-        }
+        const keywords = this.keywords.slice();
         keywords[i].lineColor = color;
         this.keywords = keywords;
     }
     changeKeywordBorderColor(i, color) {
-        let keywords;
-        if (this.keywords) {
-            keywords = this.keywords.slice();
-        } else {
-            keywords = [];
-        }
+        const keywords = this.keywords.slice();
         keywords[i].borderColor = color;
         this.keywords = keywords;
     }
@@ -145,7 +129,7 @@ class MindMap {
         keywords.splice(i, 1);
         this.keywords = keywords;
         this.selectedKeyword = this.coreKeyword;
-        this.selectedIndex = null;
+        this.selectedIndex = 0; //null
     }
     save() {
         if (!this.name) { // if this is the new mind map without a name:
@@ -179,13 +163,32 @@ class MindMap {
         if (needSave) {
             this.save();
         }
+        // back to constructor settings:
+        this.coreKeyword = {
+            text: "Core Keyword",
+            x: canvasWidth/2,
+            y: canvasHeight/2,
+            w: 270,
+            h: 30,
+            fontColor: "white",
+            backgroundColor: "rgb(0, 123, 255)",
+            lineColor: "black",
+            borderColor: "black",
+            parentIndex: 0,
+        };
+        // this.keywords = Array(0);
+        this.keywords = Array(this.coreKeyword);
+        //this.selectedKeyword = this.coreKeyword;
+        this.selectedIndex = 0; //null
+        this.selectedKeyword = this.keywords[this.selectedIndex];
+        
+        this.colorFor = null;
         this.name = "";
-        this.keywords = Array(0);
-        this.coreKeyword = {text: "Core Keyword", x: canvasWidth/2, y: canvasHeight/2, w: 270, h: 30, fontColor: "white", backgroundColor: "rgb(0, 123, 255)", lineColor: "black", borderColor: "black"};
-        this.selectedKeyword = this.coreKeyword;
-        backgroundColor = "rgb(248, 249, 250)";
+        this.backgroundColor = "rgb(248, 249, 250)";
+        this.settingsFor = "keyword";
     }
     open() {
+        currentUser.getMindMaps();
         // ask if the mind map need saving?
         let needSave = confirm("Do you want to save changes to the current mind map?");
         if (needSave) {
@@ -209,7 +212,8 @@ class MindMap {
                         this.coreKeyword = currentUser.mindmaps[i].coreKeyword;
                         this.keywords = currentUser.mindmaps[i].keywords;
                         this.backgroundColor = currentUser.mindmaps[i].backgroundColor;
-                        this.selectedKeyword = this.coreKeyword;
+                        this.selectedIndex = 0; //null
+                        this.selectedKeyword = this.keywords[this.selectedIndex];
 
                         backgroundColor = currentUser.mindmaps[i].backgroundColor;
                     }
@@ -229,18 +233,13 @@ class MindMap {
         fill("yellow");
         rect(this.selectedKeyword.x, this.selectedKeyword.y, this.selectedKeyword.w + 7, this.selectedKeyword.h + 7, 5);
         // draw keywords:
-        let keywordsLength;
-        if (this.keywords) {
-            keywordsLength = this.keywords.length;
-        } else {
-            keywordsLength = 0;
-        }
-        for (let i = keywordsLength; i > 0; i--) {
+        for (let i = this.keywords.length; i > 0; i--) {
             let keyword = this.keywords[i - 1];
             rectMode(CENTER);
             //line color:
             stroke(keyword.lineColor);
-            line(keyword.x, keyword.y, keyword.parent.x, keyword.parent.y);
+            // line(keyword.x, keyword.y, keyword.parent.x, keyword.parent.y);
+            line(keyword.x, keyword.y, this.keywords[keyword.parentIndex].x, this.keywords[keyword.parentIndex].y);
             fill(keyword.backgroundColor);
             // border color:
             stroke(keyword.borderColor);
@@ -252,18 +251,6 @@ class MindMap {
             textSize(15);
             text(keyword.text, keyword.x, keyword.y);
         }
-        let coreKeyword = this.coreKeyword;
-        rectMode(CENTER);
-        stroke(coreKeyword.borderColor);
-        fill(coreKeyword.backgroundColor);
-        rect(coreKeyword.x, coreKeyword.y, coreKeyword.w, coreKeyword.h, 5);
-        // text
-        noStroke();
-        fill(coreKeyword.fontColor);
-        textAlign("center", "center");
-        textSize(17);
-        text(coreKeyword.text, coreKeyword.x, coreKeyword.y);
-
         // watermark:
         textSize(13);
         fill("grey");
@@ -279,7 +266,7 @@ class MindMap {
 }
 
 class Keyword {
-    constructor(x, y, text, fontColor, backgroundColor, lineColor, borderColor, parent) {
+    constructor(x, y, text, fontColor, backgroundColor, lineColor, borderColor, parentIndex) {
         this.text = text;
         this.x = x;
         this.y = y;
@@ -289,7 +276,7 @@ class Keyword {
         this.backgroundColor = backgroundColor;
         this.lineColor = lineColor;
         this.borderColor = borderColor;
-        this.parent = parent;
+        this.parentIndex = parentIndex;
     }
 }
 
@@ -304,7 +291,7 @@ function setup() {
 
     currentUser = new User(null, null, null, null);
     mindmap = new MindMap();
-    
+    console.log(mindmap);
     canvasDiv.addEventListener("click", () => {
         let keywordsLength;
         if (mindmap.keywords) {
@@ -327,7 +314,7 @@ function setup() {
             // change selectedKeyword on this coreKeyword
             return;
         }
-        let newKeyword = new Keyword(mouseX, mouseY, "new Keyword", "black", "white", "black", "black", mindmap.selectedKeyword);
+        let newKeyword = new Keyword(mouseX, mouseY, "new Keyword", "black", "white", "black", "black", mindmap.selectedIndex);
         mindmap.addKeyword(newKeyword);
         clearInputs();
     });
@@ -552,6 +539,9 @@ firebase.auth().onAuthStateChanged(user => {
     } else {
         currentUser.clearData();
         console.log(currentUser);
+        // clear the current mindmap & inputs:
+        mindmap.new();
+        clearInputs();
         // show sign in / up buttons $ hide sign out:
         $signOutBtn.hide();
         $userEmail.hide();
