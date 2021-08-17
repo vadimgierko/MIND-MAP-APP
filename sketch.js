@@ -32,7 +32,7 @@ class User {
         firebase.auth().signInWithEmailAndPassword(email, password)
         .then(auth => {
             //userInfo.textContent = auth.user.email + " is logged in; user's id = " + auth.user.uid;
-        }) //console.log(auth.user.email)
+        })
         .catch(error => alert(error.message));
     }
     signOut() {
@@ -66,7 +66,7 @@ class User {
 
 class MindMap {
     constructor() {
-        this.coreKeyword = {
+        this.keywords = Array({
             text: "Core Keyword",
             x: canvasWidth/2,
             y: canvasHeight/2,
@@ -77,13 +77,9 @@ class MindMap {
             lineColor: "black",
             borderColor: "black",
             parentIndex: 0,
-        };
-        // this.keywords = Array(0);
-        this.keywords = Array(this.coreKeyword);
-        //this.selectedKeyword = this.coreKeyword;
-        this.selectedIndex = 0; //null
+        });
+        this.selectedIndex = 0;
         this.selectedKeyword = this.keywords[this.selectedIndex];
-        
         this.colorFor = null;
         this.name = "";
         this.backgroundColor = "rgb(248, 249, 250)";
@@ -128,43 +124,39 @@ class MindMap {
         const keywords = this.keywords.slice();
         keywords.splice(i, 1);
         this.keywords = keywords;
-        this.selectedKeyword = this.coreKeyword;
-        this.selectedIndex = 0; //null
+        this.selectedIndex = 0;
+        this.selectedKeyword = this.keywords[this.selectedIndex];
     }
     save() {
         if (!this.name) { // if this is the new mind map without a name:
             const mindMapName = prompt("Input the name for your new mind map. It will be saved in your database under this name.");
-            this.name = mindMapName;
-            // putting the mind map into database:
-            const mindMapRef = firebase.database().ref(currentUser.uid + "/mindmaps/" + this.name);
-            mindMapRef.set({
-                name: this.name,
-                coreKeyword: this.coreKeyword,
-                keywords: this.keywords, // ARRAY WITH OBJECTS!!! => in database index of the array is a name of a keyword object
-                backgroundColor: this.backgroundColor,
-            });
-            alert("You saved a new mind map named: " + this.name + "! If you want to open it in the future, press open button and input the name.");
-        } else { // if this is an existing (saved) mind map, which means that it has a name automatically (for example set after opening):
-            // putting the mind map into database:
-            const mindMapRef = firebase.database().ref(currentUser.uid + "/mindmaps/" + this.name);
-            mindMapRef.set({
-                name: this.name,
-                coreKeyword: this.coreKeyword,
-                keywords: this.keywords, // ARRAY WITH OBJECTS!!! => in database index of the array is a name of a keyword object
-                backgroundColor: this.backgroundColor,
-            });
-            alert("You saved an existing " + this.name + " mind map! If you want to open it in the future, press open button and input the name.");
+            if (mindMapName) {
+                this.name = mindMapName;
+            } else {
+                alert("You need to input some name for your mind map or it wouldn't be saved!");
+                return;
+            }
         }
+        // putting the mind map into database:
+        const mindMapRef = firebase.database().ref(currentUser.uid + "/mindmaps/" + this.name);
+        mindMapRef.set({
+            name: this.name,
+            keywords: this.keywords, // ARRAY WITH OBJECTS!!! => in database index of the array is a name of a keyword object
+            backgroundColor: this.backgroundColor,
+        });
+        alert("You saved " + this.name + " mind map in your user's database! If you want to open it in the future, press open button and input the name.");
         currentUser.getMindMaps();
     }
     new() {
-        // ask if the mind map need saving?
-        let needSave = confirm("Do you want to save changes to the current mind map?");
-        if (needSave) {
-            this.save();
+        if (currentUser.isLogged) {
+            // ask if the mind map need saving?
+            let needSave = confirm("Do you want to save changes to the current mind map?");
+            if (needSave) {
+                this.save();
+            }
         }
         // back to constructor settings:
-        this.coreKeyword = {
+        this.keywords = Array({
             text: "Core Keyword",
             x: canvasWidth/2,
             y: canvasHeight/2,
@@ -175,13 +167,9 @@ class MindMap {
             lineColor: "black",
             borderColor: "black",
             parentIndex: 0,
-        };
-        // this.keywords = Array(0);
-        this.keywords = Array(this.coreKeyword);
-        //this.selectedKeyword = this.coreKeyword;
-        this.selectedIndex = 0; //null
+        });
+        this.selectedIndex = 0;
         this.selectedKeyword = this.keywords[this.selectedIndex];
-        
         this.colorFor = null;
         this.name = "";
         this.backgroundColor = "rgb(248, 249, 250)";
@@ -209,12 +197,10 @@ class MindMap {
                     let savedMindMapName = currentUser.mindmaps[i].name;
                     if (savedMindMapName === inputedMindMapName) {
                         this.name = currentUser.mindmaps[i].name;
-                        this.coreKeyword = currentUser.mindmaps[i].coreKeyword;
                         this.keywords = currentUser.mindmaps[i].keywords;
                         this.backgroundColor = currentUser.mindmaps[i].backgroundColor;
-                        this.selectedIndex = 0; //null
+                        this.selectedIndex = 0;
                         this.selectedKeyword = this.keywords[this.selectedIndex];
-
                         backgroundColor = currentUser.mindmaps[i].backgroundColor;
                     }
                 }
@@ -227,7 +213,7 @@ class MindMap {
         }
     }
     draw() {
-        // highlighting selected keyword (default: this.coreKeyword):
+        // highlighting selected keyword (default: 0 => core keyword:
         rectMode(CENTER);
         //noStroke();
         fill("yellow");
@@ -238,7 +224,6 @@ class MindMap {
             rectMode(CENTER);
             //line color:
             stroke(keyword.lineColor);
-            // line(keyword.x, keyword.y, keyword.parent.x, keyword.parent.y);
             line(keyword.x, keyword.y, this.keywords[keyword.parentIndex].x, this.keywords[keyword.parentIndex].y);
             fill(keyword.backgroundColor);
             // border color:
@@ -280,6 +265,16 @@ class Keyword {
     }
 }
 
+function isMouseInsideKeyword(i) {
+    if (mouseX >= mindmap.keywords[i].x - mindmap.keywords[i].w/2 &&
+        mouseX <= mindmap.keywords[i].x + mindmap.keywords[i].w/2 &&
+        mouseY >= mindmap.keywords[i].y - mindmap.keywords[i].h/2 &&
+        mouseY <= mindmap.keywords[i].y + mindmap.keywords[i].h/2) {
+        return true;
+    }
+    return false;
+}
+
 function setup() {
     canvasHeight = 640;
     canvasWidth = canvasHeight*1.414;
@@ -288,74 +283,40 @@ function setup() {
     canvas.parent("canvas");
     // auto resizing canvasDiv to canvas width and height
     canvasDiv = document.getElementById("canvas");
-
+    // initiate
     currentUser = new User(null, null, null, null);
     mindmap = new MindMap();
-    console.log(mindmap);
+
     canvasDiv.addEventListener("click", () => {
-        let keywordsLength;
-        if (mindmap.keywords) {
-            keywordsLength = mindmap.keywords.length;
-        } else {
-            keywordsLength = 0;
-        }
-        for (let i = 0; i < keywordsLength; i++) {
-            if (mouseX >= mindmap.keywords[i].x - mindmap.keywords[i].w/2 &&
-                mouseX <= mindmap.keywords[i].x + mindmap.keywords[i].w/2 &&
-                mouseY >= mindmap.keywords[i].y - mindmap.keywords[i].h/2 &&
-                mouseY <= mindmap.keywords[i].y + mindmap.keywords[i].h/2) {
+        for (let i = 0; i < mindmap.keywords.length; i++) {
+            if (isMouseInsideKeyword(i)) {
                 return;
             }            
         }
-        if (mouseX >= mindmap.coreKeyword.x - mindmap.coreKeyword.w/2 && // if this.coreKeyword wad clicked:
-            mouseX <= mindmap.coreKeyword.x + mindmap.coreKeyword.w/2 &&
-            mouseY >= mindmap.coreKeyword.y - mindmap.coreKeyword.h/2 &&
-            mouseY <= mindmap.coreKeyword.y + mindmap.coreKeyword.h/2) {
-            // change selectedKeyword on this coreKeyword
-            return;
-        }
-        let newKeyword = new Keyword(mouseX, mouseY, "new Keyword", "black", "white", "black", "black", mindmap.selectedIndex);
+        const newKeyword = new Keyword(mouseX, mouseY, "new Keyword", "black", "white", "black", "black", mindmap.selectedIndex);
         mindmap.addKeyword(newKeyword);
         clearInputs();
     });
 
     canvasDiv.addEventListener("dblclick", () => {
         for (let i = 0; i < mindmap.keywords.length; i++) {
-            if (mouseX >= mindmap.keywords[i].x - mindmap.keywords[i].w/2 &&
-                mouseX <= mindmap.keywords[i].x + mindmap.keywords[i].w/2 &&
-                mouseY >= mindmap.keywords[i].y - mindmap.keywords[i].h/2 &&
-                mouseY <= mindmap.keywords[i].y + mindmap.keywords[i].h/2) {
-                
-                mindmap.selectedKeyword = mindmap.keywords[i];
+            if (isMouseInsideKeyword(i)) {
                 mindmap.selectedIndex = i;
-                console.log("selected: " + mindmap.selectedIndex);
+                mindmap.selectedKeyword = mindmap.keywords[mindmap.selectedIndex];
                 clearInputs();
             }            
         }
-        
-        if (mouseX >= mindmap.coreKeyword.x - mindmap.coreKeyword.w/2 && // if this.coreKeyword wad clicked:
-            mouseX <= mindmap.coreKeyword.x + mindmap.coreKeyword.w/2 &&
-            mouseY >= mindmap.coreKeyword.y - mindmap.coreKeyword.h/2 &&
-            mouseY <= mindmap.coreKeyword.y + mindmap.coreKeyword.h/2) {
-            
-            mindmap.selectedKeyword = mindmap.coreKeyword;
-        }
     });
-
     // set background color function:
     backgroundColor = mindmap.backgroundColor;
 }
 
 function mouseDragged(i) {
     for (let i = 0; i < mindmap.keywords.length; i++) {
-        if (mouseX >= mindmap.keywords[i].x - mindmap.keywords[i].w/2 &&
-            mouseX <= mindmap.keywords[i].x + mindmap.keywords[i].w/2 &&
-            mouseY >= mindmap.keywords[i].y - mindmap.keywords[i].h/2 &&
-            mouseY <= mindmap.keywords[i].y + mindmap.keywords[i].h/2) {
+        if (isMouseInsideKeyword(i)) {
             mindmap.onMouseDragged(i);
         }
     }
-    // enable to drag the coreKeyword ??
 }
 
 //=============== SETTINGS FOR =========================================
@@ -367,15 +328,10 @@ settingsChanger.addEventListener("change", () => {
 });
 
 let keywordInput = document.getElementById("keyword-input");
-
 keywordInput.addEventListener("input", (e) => {
     if (settingsChanger.value !== "mindmap") {
         let newText = e.target.value;
-        if (mindmap.selectedKeyword !== mindmap.coreKeyword) {
-            mindmap.editKeyword(mindmap.selectedIndex, newText);
-        } else {
-            mindmap.coreKeyword.text = newText;
-        }
+        mindmap.editKeyword(mindmap.selectedIndex, newText);
     } else {
         alert("You can't change selected keyword text in mind map settings mode! If you want to change selected keyword text, change settings for on keyword.");
     }
@@ -391,26 +347,14 @@ let colorPicker = document.getElementById("color-picker");
 colorPicker.addEventListener("input", (e) => {
     let color = e.target.value;
     if (settingsChanger.value === "keyword") {
-        if (mindmap.selectedKeyword !== mindmap.coreKeyword) {
-            if (mindmap.colorFor === "keyword background") {
-                mindmap.changeKeywordBackgroundColor(mindmap.selectedIndex, color);
-            } else if (mindmap.colorFor === "text") {
-                mindmap.changeKeywordFontColor(mindmap.selectedIndex, color);
-            } else if (mindmap.colorFor === "line") {
-                mindmap.changeKeywordLineColor(mindmap.selectedIndex, color);
-            } else if (mindmap.colorFor === "border") {
-                mindmap.changeKeywordBorderColor(mindmap.selectedIndex, color);
-            }
-        } else {
-            if (mindmap.colorFor === "keyword background") {
-                mindmap.coreKeyword.backgroundColor = color;
-            } else if (mindmap.colorFor === "text") {
-                mindmap.coreKeyword.fontColor = color;
-            } else if (mindmap.colorFor === "line") {
-                mindmap.coreKeyword.lineColor = color;
-            } else if (mindmap.colorFor === "border") {
-                mindmap.coreKeyword.borderColor = color;
-            }
+        if (mindmap.colorFor === "keyword background") {
+            mindmap.changeKeywordBackgroundColor(mindmap.selectedIndex, color);
+        } else if (mindmap.colorFor === "text") {
+            mindmap.changeKeywordFontColor(mindmap.selectedIndex, color);
+        } else if (mindmap.colorFor === "line") {
+            mindmap.changeKeywordLineColor(mindmap.selectedIndex, color);
+        } else if (mindmap.colorFor === "border") {
+            mindmap.changeKeywordBorderColor(mindmap.selectedIndex, color);
         }
     } else if (settingsChanger.value === "mindmap") {
         if (mindmap.colorFor === "mind map background") {
@@ -487,7 +431,7 @@ function clearInputs() {
     mindmap.colorFor = null;
 }
 
-// USER AUTH 
+//=========================== USER AUTH 
 
 const signInBtn = document.getElementById("sign-in-btn");
 const $signInBtn = $("#sign-in-btn");
@@ -550,7 +494,6 @@ firebase.auth().onAuthStateChanged(user => {
     }
 });
 
-//============================== DRAW() ==========================
 function draw() {
     background(backgroundColor);
     mindmap.draw();
