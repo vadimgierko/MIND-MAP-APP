@@ -62,6 +62,13 @@ class User {
         this.isLogged = false;
         this.email = null;
     }
+    deleteAccount() {
+        const deleteConfirmed = confirm("Are you sure you want to delete your account & all of your saved mindmaps?!");
+        const user = firebase.auth().currentUser;
+        if (deleteConfirmed) {
+            user.delete().catch(error => alert(error.message));
+        }
+    }
 }
 
 class MindMap {
@@ -465,12 +472,10 @@ const passwordInput = document.getElementById("password");
 
 emailInput.addEventListener("input", (e) => {
     email = e.target.value;
-    console.log(email);
 });
 
 passwordInput.addEventListener("input", (e) => {
     password = e.target.value;
-    console.log(password);
 });
 
 const signInBtn = document.getElementById("sign-in-btn");
@@ -512,6 +517,15 @@ const $userSettingsBtn = $("#user-settings-btn");
 
 const signOutBtn = document.getElementById("sign-out-btn");
 const $signOutBtn = $("#sign-out-btn");
+
+const deleteAccountBtn = document.getElementById("delete-account-btn");
+deleteAccountBtn.addEventListener("click", () => {
+    if (currentUser.isLogged) {
+        currentUser.deleteAccount();
+    } else {
+        alert("You need to sign in to delete your account!");
+    }
+})
 
 signOutBtn.addEventListener("click", () => currentUser.signOut());
 
