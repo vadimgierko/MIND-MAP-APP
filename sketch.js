@@ -455,6 +455,23 @@ function clearInputs() {
 }
 
 //=========================== USER AUTH & BTNs =========================
+const $signInDropdown = $("#sign-in-dropdown");
+
+let email;
+let password;
+
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+
+emailInput.addEventListener("input", (e) => {
+    email = e.target.value;
+    console.log(email);
+});
+
+passwordInput.addEventListener("input", (e) => {
+    password = e.target.value;
+    console.log(password);
+});
 
 const signInBtn = document.getElementById("sign-in-btn");
 const $signInBtn = $("#sign-in-btn");
@@ -463,18 +480,22 @@ const signUpBtn = document.getElementById("sign-up-btn");
 const $signUpBtn = $("#sign-up-btn");
 
 signUpBtn.addEventListener("click", () => {
-    let email = prompt("Input your email address");
-    let password = prompt("Input your password");
     if (email && password) {
         currentUser.signUp(email, password);
+        email = null;
+        password = null;
+        emailInput.value = null;
+        passwordInput.value = null;
     }
 });
 
 signInBtn.addEventListener("click", () => {
-    let email = prompt("Input your email address");
-    let password = prompt("Input your password");
     if (email && password) {
         currentUser.signIn(email, password);
+        email = null;
+        password = null;
+        emailInput.value = null;
+        passwordInput.value = null;
     }
 });
 
@@ -491,8 +512,6 @@ const $userSettingsBtn = $("#user-settings-btn");
 
 const signOutBtn = document.getElementById("sign-out-btn");
 const $signOutBtn = $("#sign-out-btn");
-
-
 
 signOutBtn.addEventListener("click", () => currentUser.signOut());
 
@@ -512,8 +531,7 @@ firebase.auth().onAuthStateChanged(user => {
         $userIcon.show();
         $userDropdown.show();
 
-        $signInBtn.hide();
-        $signUpBtn.hide();
+        $signInDropdown.hide();
 
         currentUser.getMindMaps(); 
     } else {
@@ -527,8 +545,7 @@ firebase.auth().onAuthStateChanged(user => {
         $userIcon.hide();
         $userDropdown.hide();
 
-        $signInBtn.show();
-        $signUpBtn.show();
+        $signInDropdown.show();
     }
 });
 
