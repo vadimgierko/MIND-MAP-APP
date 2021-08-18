@@ -454,19 +454,13 @@ function clearInputs() {
     mindmap.colorFor = null;
 }
 
-//=========================== USER AUTH 
+//=========================== USER AUTH & BTNs =========================
 
 const signInBtn = document.getElementById("sign-in-btn");
 const $signInBtn = $("#sign-in-btn");
 
 const signUpBtn = document.getElementById("sign-up-btn");
 const $signUpBtn = $("#sign-up-btn");
-
-const signOutBtn = document.getElementById("sign-out-btn");
-const $signOutBtn = $("#sign-out-btn");
-
-const $userEmail = $("#user-email");
-const $userIcon = $("#user-icon");
 
 signUpBtn.addEventListener("click", () => {
     let email = prompt("Input your email address");
@@ -484,6 +478,22 @@ signInBtn.addEventListener("click", () => {
     }
 });
 
+//=======================================================================
+
+const $userEmail = $("#user-email");
+const $userIcon = $("#user-icon");
+
+const userDropdown = document.getElementById("user-dropdown");
+const $userDropdown = $("#user-dropdown");
+
+const userSettingsBtn = document.getElementById("user-settings-btn");
+const $userSettingsBtn = $("#user-settings-btn");
+
+const signOutBtn = document.getElementById("sign-out-btn");
+const $signOutBtn = $("#sign-out-btn");
+
+
+
 signOutBtn.addEventListener("click", () => currentUser.signOut());
 
 // CHECK IF USER IS SIGNED IN => assign uid to currentUserId and print it in console + get the user data:
@@ -500,7 +510,8 @@ firebase.auth().onAuthStateChanged(user => {
         // show sign out button $ hide other:
         $userEmail.text(currentUser.email).show();
         $userIcon.show();
-        $signOutBtn.show();
+        $userDropdown.show();
+
         $signInBtn.hide();
         $signUpBtn.hide();
 
@@ -512,9 +523,10 @@ firebase.auth().onAuthStateChanged(user => {
         mindmap.new();
         clearInputs();
         // show sign in / up buttons $ hide sign out:
-        $signOutBtn.hide();
         $userEmail.hide();
         $userIcon.hide();
+        $userDropdown.hide();
+
         $signInBtn.show();
         $signUpBtn.show();
     }
