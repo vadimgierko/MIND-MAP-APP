@@ -14,7 +14,7 @@
 
       <nav class="navbar bg-primary text-white my-1 mx-n3 rounded">
         <a href="#" class="navbar-brand text-reset h4">Mind Maps App</a>
-        <form class="form-inline">
+        <div class="form-inline">
           <button id="new-mind-map-btn" class="btn btn-outline-light rounded ml-3"><i class="bi bi-file-earmark-plus"></i></button>
           <button id="save-btn" class="btn btn-outline-light rounded ml-3"><i class="bi bi-bookmark"></i></button>
           <button id="open-btn" class="btn btn-outline-light rounded ml-3"><i class="bi bi-folder2-open"></i></button>
@@ -62,10 +62,23 @@
               Enjoy!
             </div>
           </div>
-          
-          <button type="button" id="sign-in-btn" style="display: inline;" class="btn btn-success ml-3">Sign in</button>
-          <button type="button" id="sign-up-btn" style="display: inline;" class="btn btn-outline-light ml-3">Sign up</button>
-  
+          <div id="sign-in-dropdown" class="btn-group">
+            <button type="button" class="btn btn-outline-light ml-3 dropdown-toggle" data-toggle="dropdown">Sign in </button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <form>
+                <div class="form-group px-3">
+                  <label for="email" class="py-2">Email address:</label>
+                  <input type="email" id="email" class="form-control" placeholder="input your email address">
+                </div>
+                <div class="form-group px-3">
+                  <label for="password" class="py-2">Password:</label>
+                  <input type="password" class="form-control" id="password" placeholder="input your password">
+                </div>
+                <button type="button" id="sign-in-btn" style="display: inline;" class="btn btn-success m-3">Sign in</button>
+                <button type="button" id="sign-up-btn" style="display: inline;" class="btn btn-outline-secondary m-3">Sign up</button>
+              </form>
+            </div>
+          </div>
           <span id="user-icon" class="bi bi-person ml-3"></span>
           <span id="user-email" class="ml-2"></span>
           <div id="user-dropdown" class="btn-group">
@@ -75,7 +88,7 @@
               <button id="sign-out-btn" class="dropdown-item" type="button">Log out</button>
             </div>
           </div>
-        </form>
+        </div>
       </nav>
         
       <div class="row justify-content-md-between mb-3">
