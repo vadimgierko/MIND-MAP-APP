@@ -11,72 +11,72 @@
   </head>
   <body style="background-color: rgb(39, 37, 37);">
     <div class="container">
-      <!-- NAV BAR -->
-      <div class="navbar .form-inline bg-primary justify-content-between text-white my-1 mx-n3 rounded">
-        <div class="col">
-          <span class="navbar-brand mb-0 ml-n3 h1 font-weight-bold text-white">
-            <a
-              href="#"
-              class="text-reset h4"
+
+      <nav class="navbar bg-primary text-white my-1 mx-n3 rounded">
+        <a href="#" class="navbar-brand text-reset h4">Mind Maps App</a>
+        <form class="form-inline">
+          <button id="new-mind-map-btn" class="btn btn-outline-light rounded ml-3"><i class="bi bi-file-earmark-plus"></i></button>
+          <button id="save-btn" class="btn btn-outline-light rounded ml-3"><i class="bi bi-bookmark"></i></button>
+          <button id="open-btn" class="btn btn-outline-light rounded ml-3"><i class="bi bi-folder2-open"></i></button>
+          <button id="delete-mindmap-btn" class="btn btn-danger ml-3"><i class="bi bi-trash"></i></button>
+
+          <div class="dropdown">
+            <button
+              type="button"
+              class="btn btn-outline-light ml-3 dropdown-toggle"
+              data-toggle="dropdown"
+              id="about-app-btn"
             >
-              Mind Maps App
-            </a>
-          </span>
-        </div>
-        <div class="dropdown">
-          <button
-            type="button"
-            class="btn btn-outline-light ml-3 dropdown-toggle"
-            data-toggle="dropdown"
-            id="about-app-btn"
-          >
-            About app
-          </button>
-          <div class="dropdown-menu dropdown-menu-left text-justify px-3" style="min-width: 400px;">
-            <p>Mind Maps App is very simple, intuitive and easy to use application for online mindmapping.</p>
-            <p>Click on Short App Tutorial button on menu to figure out how to use it.</p>
-            <p>This app allows you to put keywords in any place (not like in other mindmapping apps), what means that you are totally free and not limited by a default structure!</p>
-            <p>And... you can save the mind map you've created by one click on canvas (check out the tutorial)!</p>
-            <p>I've used pure JavaScript and p5.js library to create the app (no HTML Canvas was used) and did some styling with pure Bootstrap.</p>
-            Enjoy!
+              About app
+            </button>
+            <div class="dropdown-menu dropdown-menu-left text-justify px-3" style="min-width: 400px;">
+              <p>Mind Maps App is very simple, intuitive and easy to use application for online mindmapping.</p>
+              <p>Click on Short App Tutorial button on menu to figure out how to use it.</p>
+              <p>This app allows you to put keywords in any place (not like in other mindmapping apps), what means that you are totally free and not limited by a default structure!</p>
+              <p>And... you can save the mind map you've created by one click on canvas (check out the tutorial)!</p>
+              <p>I've used pure JavaScript and p5.js library to create the app (no HTML Canvas was used) and did some styling with pure Bootstrap.</p>
+              Enjoy!
+            </div>
           </div>
-        </div>
-        <button
-          type="button"
-          class="btn btn-outline-light ml-3"
-          id="about-mind-maps-btn"
-        >
-          <a href="https://en.wikipedia.org/wiki/Mind_map" target="_blank" class="text-reset text-white">About mind maps</a>
-        </button>
-        <div class="dropdown">
-          <button
-            type="button"
-            class="btn btn-outline-light ml-3 dropdown-toggle"
-            data-toggle="dropdown"
-            id="tutorial-btn"
-          >
-            Short App Tutorial
-          </button>
-          <div class="dropdown-menu dropdown-menu-right text-justify px-3" style="min-width: 600px;">
-            <p>Mind Maps App is very intuitive.</p>
-            <p>There is a core keyword in the center of the canvas.</p>
-            <p>You can see that it's surrounded with yellow color. That means that this word is selected.</p>
-            <p>While some word is selected, you can click at any place on the canvas to add the sub-keyword to the selected keyword.</p>
-            <p>These words will be connected with lines. While one word is selected, all new keywords will be connected with this word.</p>
-            <p>If you want to add a keyword connected with another word - double click on that word and then click at any place to add a sub-keyword.</p>
-            <p>You can drag keywords (except the core keyword) - just click on it and drag!</p>
-            <p>You can edit keywords in the left navbar. But remember to check, if the word you want to edit is selected (double click on it).</p>
-            <p>You can also edit the entire mind map with Mind Map Settings navbar above the canvas.</p>
-            <p>You can save and download your map as a PNG image. Click on the canvas with right button of your mouse and save it as an image!</p>
-            Enjoy!
+
+          <div class="dropdown">
+            <button
+              type="button"
+              class="btn btn-outline-light ml-3 dropdown-toggle"
+              data-toggle="dropdown"
+              id="tutorial-btn"
+            >
+              Short App Tutorial
+            </button>
+            <div class="dropdown-menu dropdown-menu-right text-justify px-3" style="min-width: 600px;">
+              <p>Mind Maps App is very intuitive.</p>
+              <p>There is a core keyword in the center of the canvas.</p>
+              <p>You can see that it's surrounded with yellow color. That means that this word is selected.</p>
+              <p>While some word is selected, you can click at any place on the canvas to add the sub-keyword to the selected keyword.</p>
+              <p>These words will be connected with lines. While one word is selected, all new keywords will be connected with this word.</p>
+              <p>If you want to add a keyword connected with another word - double click on that word and then click at any place to add a sub-keyword.</p>
+              <p>You can drag keywords (except the core keyword) - just click on it and drag!</p>
+              <p>You can edit keywords in the left navbar. But remember to check, if the word you want to edit is selected (double click on it).</p>
+              <p>You can also edit the entire mind map with Mind Map Settings navbar above the canvas.</p>
+              <p>You can save and download your map as a PNG image. Click on the canvas with right button of your mouse and save it as an image!</p>
+              Enjoy!
+            </div>
           </div>
-        </div>
-        <button type="button" id="sign-in-btn" style="display: inline;" class="btn btn-success ml-3">Sign in</button>
-        <button type="button" id="sign-up-btn" style="display: inline;" class="btn btn-outline-light ml-3">Sign up</button>
-        <span id="user-icon" class="bi bi-person ml-3"></span>
-        <span id="user-email" class="ml-2"></span>
-        <button type="button" id="sign-out-btn" style="display: inline;" class="btn btn-secondary ml-3">Sign out</button>
-      </div>
+          
+          <button type="button" id="sign-in-btn" style="display: inline;" class="btn btn-success ml-3">Sign in</button>
+          <button type="button" id="sign-up-btn" style="display: inline;" class="btn btn-outline-light ml-3">Sign up</button>
+  
+          <span id="user-icon" class="bi bi-person ml-3"></span>
+          <span id="user-email" class="ml-2"></span>
+          <div id="user-dropdown" class="btn-group">
+            <button type="button" class="btn text-white dropdown-toggle" data-toggle="dropdown"></button>
+            <div class="dropdown-menu dropdown-menu-right text-right">
+              <button id="user-settings-btn" class="dropdown-item" type="button">User settings</button>
+              <button id="sign-out-btn" class="dropdown-item" type="button">Log out</button>
+            </div>
+          </div>
+        </form>
+      </nav>
         
       <div class="row justify-content-md-between mb-3">
 
@@ -100,27 +100,6 @@
             <input id="color-picker" type="color" class="input my-2">
             <!--<button id="save-changes-btn" class="btn btn-primary my-2 d-block">save changes</button>-->
             <button id="delete-keyword-btn" class="btn btn-danger my-2 d-block">delete keyword</button>
-            <br>
-            <br>
-            <br>
-            <button id="new-mind-map-btn" class="btn btn-success my-2 d-block">create new mind map</button>            
-            <div class="dropdown">
-              <button
-                class="btn btn-light rounded my-2 d-block"
-                id="save-btn"
-              >save <i class="bi bi-bookmark-fill"></i></button>
-            </div>
-            <div class="dropdown">
-              <button
-                class="btn btn-outline-light rounded my-2 d-block"
-                id="open-btn"
-              >open <i class="bi bi-folder2-open"></i></button>
-            </div>
-            <button
-                id="delete-mindmap-btn"
-                class="btn btn-danger my-2 d-block"
-            >delete mind map <i class="bi bi-trash"></i>
-            </button>
           </div>
           
         </div> <!-- the end of aside navbar col -->
