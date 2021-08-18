@@ -212,6 +212,18 @@ class MindMap {
             alert("There is no saved mind maps yet... Create a new one, save it and then try to open it ;-)");
         }
     }
+    delete() {
+        const ok = confirm("Are you sure you want to delete this mind map forever?");
+        if (ok) {
+            const mindMapRef = firebase.database().ref(currentUser.uid + "/mindmaps/" + this.name);
+            mindMapRef.remove()
+              .then(() => currentUser.getMindMaps())
+              .catch(function(error) {
+                alert("Remove failed: " + error.message + ". Try again!")
+              });
+        }
+        return;
+    }
     draw() {
         // highlighting selected keyword (default: 0 => core keyword:
         rectMode(CENTER);
@@ -420,6 +432,17 @@ openBtn.addEventListener("click", () => {
         clearInputs();
     } else {
         alert("You need to sign in (or sign up) if you want to open one of your saved mind maps!");
+    }
+});
+
+let deleteBtn = document.getElementById("delete-mindmap-btn");
+deleteBtn.addEventListener("click", () => {
+  if (currentUser.isLogged) {
+        mindmap.delete();
+        clearInputs();
+        mindmap.new();
+    } else {
+        alert("You need to sign in if you want to delete this mind map!");
     }
 });
 
